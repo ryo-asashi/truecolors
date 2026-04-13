@@ -74,7 +74,7 @@ ggplot(data = japan) +
     xlim = c(128, 146), ylim = c(30, 45)
   ) +
   labs(fill = legend_label, color = legend_label) +
-  theme_minimal() +
+  theme_midr(grid = "xy") +
   theme(legend.key.height = unit(40, "pt"))
 ```
 
@@ -102,7 +102,7 @@ ggplot(mtcars, aes(x = hp, y = mpg)) +
     size = "Weight",
     color = "Cylinders"
   ) +
-  theme_bw()
+  theme_midr(grid = "xy")
 ```
 
 
