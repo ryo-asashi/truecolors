@@ -3,20 +3,15 @@ project:
   output-dir: docs
 
 website:
-  title: "truecolors"
+  title: "Tokyo.R #120"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
-    css: styles.css
+    theme: simplex
     toc: true
-
-
-
+    toc-depth: 4
+    number-sections: false

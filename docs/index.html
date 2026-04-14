@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Tokyo.R #120 データの可視化 – truecolors</title>
+<title>Tokyo.R #120 データの可視化 – Tokyo.R #120</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e31584831b205ffbb2d98406f31c2a5b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-56ce59c3fcb2b14b795df6d7beceb2f2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -134,7 +134,6 @@ window.Quarto = {
 };
 </script>
 
-<link rel="stylesheet" href="styles.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -147,7 +146,7 @@ window.Quarto = {
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
     </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">truecolors</span>
+    <span class="navbar-title">Tokyo.R #120</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -159,10 +158,6 @@ window.Quarto = {
   <li class="nav-item">
     <a class="nav-link active" href="./index.html" aria-current="page"> 
 <span class="menu-text">Home</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
-<span class="menu-text">About</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -181,26 +176,43 @@ window.Quarto = {
    
   <ul>
   <li><a href="#ggplot2-を使おう" id="toc-ggplot2-を使おう" class="nav-link active" data-scroll-target="#ggplot2-を使おう"><strong>ggplot2</strong> を使おう</a>
+  <ul>
+  <li><a href="#the-layered-grammar-of-graphics" id="toc-the-layered-grammar-of-graphics" class="nav-link" data-scroll-target="#the-layered-grammar-of-graphics">The Layered Grammar of Graphics</a>
   <ul class="collapse">
-  <li><a href="#the-layered-grammar-of-graphics" id="toc-the-layered-grammar-of-graphics" class="nav-link" data-scroll-target="#the-layered-grammar-of-graphics">The Layered Grammar of Graphics</a></li>
   <li><a href="#プロットを構成する基本要素" id="toc-プロットを構成する基本要素" class="nav-link" data-scroll-target="#プロットを構成する基本要素">プロットを構成する基本要素</a></li>
   <li><a href="#理論に忠実なコード表現" id="toc-理論に忠実なコード表現" class="nav-link" data-scroll-target="#理論に忠実なコード表現">理論に忠実なコード表現</a></li>
-  <li><a href="#ショートカット関数を用いた実際のコード表現" id="toc-ショートカット関数を用いた実際のコード表現" class="nav-link" data-scroll-target="#ショートカット関数を用いた実際のコード表現">ショートカット関数を用いた実際のコード表現</a></li>
-  <li><a href="#散布図-scatter-plot" id="toc-散布図-scatter-plot" class="nav-link" data-scroll-target="#散布図-scatter-plot">1. 散布図 (Scatter Plot)</a></li>
-  <li><a href="#棒グラフ-bar-chart" id="toc-棒グラフ-bar-chart" class="nav-link" data-scroll-target="#棒グラフ-bar-chart">2. 棒グラフ (Bar Chart)</a></li>
-  <li><a href="#ヒストグラム-histogram" id="toc-ヒストグラム-histogram" class="nav-link" data-scroll-target="#ヒストグラム-histogram">3. ヒストグラム (Histogram)</a></li>
-  <li><a href="#折れ線グラフ-line-chart" id="toc-折れ線グラフ-line-chart" class="nav-link" data-scroll-target="#折れ線グラフ-line-chart">4. 折れ線グラフ (Line Chart)</a></li>
-  <li><a href="#箱ひげ図-boxplot" id="toc-箱ひげ図-boxplot" class="nav-link" data-scroll-target="#箱ひげ図-boxplot">5. 箱ひげ図 (Boxplot)</a></li>
-  <li><a href="#密度曲線-density-plot" id="toc-密度曲線-density-plot" class="nav-link" data-scroll-target="#密度曲線-density-plot">6. 密度曲線 (Density Plot)</a></li>
-  <li><a href="#面グラフ-area-chart" id="toc-面グラフ-area-chart" class="nav-link" data-scroll-target="#面グラフ-area-chart">7. 面グラフ (Area Chart)</a></li>
-  <li><a href="#代表的なレイヤーの内部構成" id="toc-代表的なレイヤーの内部構成" class="nav-link" data-scroll-target="#代表的なレイヤーの内部構成">代表的なレイヤーの内部構成</a></li>
+  <li><a href="#短縮関数を用いた実際のコード表現" id="toc-短縮関数を用いた実際のコード表現" class="nav-link" data-scroll-target="#短縮関数を用いた実際のコード表現">短縮関数を用いた実際のコード表現</a></li>
+  </ul></li>
+  <li><a href="#散布図-scatter-plot" id="toc-散布図-scatter-plot" class="nav-link" data-scroll-target="#散布図-scatter-plot">散布図 (Scatter Plot)</a></li>
+  <li><a href="#棒グラフ-bar-chart" id="toc-棒グラフ-bar-chart" class="nav-link" data-scroll-target="#棒グラフ-bar-chart">棒グラフ (Bar Chart)</a>
+  <ul class="collapse">
+  <li><a href="#度数グラフ" id="toc-度数グラフ" class="nav-link" data-scroll-target="#度数グラフ">度数グラフ</a></li>
+  <li><a href="#列グラフ" id="toc-列グラフ" class="nav-link" data-scroll-target="#列グラフ">列グラフ</a></li>
+  </ul></li>
+  <li><a href="#ヒストグラム-histogram" id="toc-ヒストグラム-histogram" class="nav-link" data-scroll-target="#ヒストグラム-histogram">ヒストグラム (Histogram)</a></li>
+  <li><a href="#密度曲線-density-plot" id="toc-密度曲線-density-plot" class="nav-link" data-scroll-target="#密度曲線-density-plot">密度曲線 (Density Plot)</a></li>
+  <li><a href="#箱ひげ図-boxplot" id="toc-箱ひげ図-boxplot" class="nav-link" data-scroll-target="#箱ひげ図-boxplot">箱ひげ図 (Boxplot)</a></li>
+  <li><a href="#折れ線グラフ-line-chart" id="toc-折れ線グラフ-line-chart" class="nav-link" data-scroll-target="#折れ線グラフ-line-chart">折れ線グラフ (Line Chart)</a></li>
+  <li><a href="#面グラフ-area-chart" id="toc-面グラフ-area-chart" class="nav-link" data-scroll-target="#面グラフ-area-chart">面グラフ (Area Chart)</a></li>
+  <li><a href="#ヒートマップ-heatmap" id="toc-ヒートマップ-heatmap" class="nav-link" data-scroll-target="#ヒートマップ-heatmap">ヒートマップ (Heatmap)</a></li>
+  <li><a href="#等高線図-contour-plot" id="toc-等高線図-contour-plot" class="nav-link" data-scroll-target="#等高線図-contour-plot">等高線図 (Contour Plot)</a>
+  <ul class="collapse">
+  <li><a href="#等高線" id="toc-等高線" class="nav-link" data-scroll-target="#等高線">等高線</a></li>
+  <li><a href="#塗りつぶし等高線" id="toc-塗りつぶし等高線" class="nav-link" data-scroll-target="#塗りつぶし等高線">塗りつぶし等高線</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#データの構造を色にする3つのカラーパレット" id="toc-データの構造を色にする3つのカラーパレット" class="nav-link" data-scroll-target="#データの構造を色にする3つのカラーパレット">データの構造を「色」にする：3つのカラーパレット</a>
+  <ul>
+  <li><a href="#qualitative-質的パレット" id="toc-qualitative-質的パレット" class="nav-link" data-scroll-target="#qualitative-質的パレット">Qualitative: 質的パレット</a>
   <ul class="collapse">
-  <li><a href="#質的パレット-qualitative" id="toc-質的パレット-qualitative" class="nav-link" data-scroll-target="#質的パレット-qualitative">質的パレット (Qualitative)</a></li>
-  <li><a href="#順序連続パレット-sequential" id="toc-順序連続パレット-sequential" class="nav-link" data-scroll-target="#順序連続パレット-sequential">順序・連続パレット (Sequential)</a></li>
-  <li><a href="#発散パレット-diverging" id="toc-発散パレット-diverging" class="nav-link" data-scroll-target="#発散パレット-diverging">発散パレット (Diverging)</a></li>
+  <li><a href="#代表例" id="toc-代表例" class="nav-link" data-scroll-target="#代表例">代表例</a></li>
+  <li><a href="#データの水準とパレットの色数に関する注意点" id="toc-データの水準とパレットの色数に関する注意点" class="nav-link" data-scroll-target="#データの水準とパレットの色数に関する注意点">データの水準とパレットの色数に関する注意点</a></li>
   </ul></li>
+  <li><a href="#sequential-順序パレット" id="toc-sequential-順序パレット" class="nav-link" data-scroll-target="#sequential-順序パレット">Sequential: 順序パレット</a></li>
+  <li><a href="#diverging-発散パレット" id="toc-diverging-発散パレット" class="nav-link" data-scroll-target="#diverging-発散パレット">Diverging: 発散パレット</a></li>
+  </ul></li>
+  <li><a href="#storytelling-with-data" id="toc-storytelling-with-data" class="nav-link" data-scroll-target="#storytelling-with-data">Storytelling With Data</a></li>
+  <li><a href="#参考資料" id="toc-参考資料" class="nav-link" data-scroll-target="#参考資料">参考資料</a></li>
   </ul>
 </nav>
     </div>
@@ -358,34 +370,33 @@ window.Quarto = {
 </div>
 <section id="the-layered-grammar-of-graphics" class="level3">
 <h3 class="anchored" data-anchor-id="the-layered-grammar-of-graphics">The Layered Grammar of Graphics</h3>
-<p><strong>ggplot2</strong> パッケージは、開発者の Hadley Wickham が提唱した “<strong>Layered Grammar of Graphics</strong>” (階層状のグラフィックス文法) という理論に基づいて設計されています。</p>
+<p><strong>ggplot2</strong> パッケージは、開発者の Hadley Wickham が提唱した “<strong>Layered Grammar of Graphics</strong>” (層状のグラフィックス文法) という理論に基づいて設計されています。</p>
 <p>この理論において、プロットは、散布図やヒストグラムのような典型的パターンによって分類される代わりに、点や線などの図形的要素やデータに対する統計的変換などの抽象的な構成要素の組み合わせによって構成されるものとして扱われます。</p>
-</section>
-<section id="プロットを構成する基本要素" class="level3">
-<h3 class="anchored" data-anchor-id="プロットを構成する基本要素">プロットを構成する基本要素</h3>
+<section id="プロットを構成する基本要素" class="level4">
+<h4 class="anchored" data-anchor-id="プロットを構成する基本要素">プロットを構成する基本要素</h4>
 <ol type="1">
 <li><p><strong>Defaults</strong> (デフォルト設定)</p>
-<p>プロット全体で共有される基盤です。<code>data</code> (データフレーム) と <code>mapping</code> を指定します。</p>
+<p>プロット全体で共有される基盤です。<code>ggplot()</code> 関数で <code>data</code> (データフレーム) と <code>mapping</code> を指定します。</p>
 <ul>
 <li><strong>mapping</strong>: データの変数を、図形的要素を特徴付ける <span class="math inline">\(x\)</span>座標、<span class="math inline">\(y\)</span>座標、色、形などの <strong>Aesthetics</strong> (審美的属性) に対応付ける規則です。<code>aes()</code> 関数を通して指定されます。</li>
 </ul></li>
 <li><p><strong>Layer</strong> (レイヤー)</p>
-<p>データを実際に図形として描写する階層です。一つのプロットは複数のレイヤーを持つことができ、各レイヤーは以下の要素で構成されます。</p>
+<p>データを実際に図形として描写する層です。一つのプロットは複数のレイヤーを持つことができ、各レイヤーは以下の要素で構成されます。<code>layer()</code> 関数で作成可能ですが、通常は <code>geom_*()</code> 型や <code>stat_*()</code> 型の短縮関数を用いて作成します。</p>
 <ul>
 <li><p><strong>geom</strong> (Geometric object): 点 (point)、線 (line)、棒 (bar) など、実際に描画される図形的要素の種類です。</p></li>
 <li><p><strong>stat</strong> (Statistical transformation): データに対する統計的変換の方法です。データをそのまま使うのか (identity)、あるいは要約統計量 (summary) や平滑化曲線 (smooth) などを計算してから使うのかを定めます。</p></li>
-<li><p><strong>position</strong> (Position adjustment): 棒の積み上げ (stack) や点の散らばり (jitter) など、図形的要素の配置を調整する方法です。</p></li>
+<li><p><strong>position</strong> (Position adjustment): 棒の積み上げ (stack) や点の散らばり (jitter) など、図形的要素の配置を調整する方法です。名前や <code>position_*()</code> 型の関数で指定できます。</p></li>
 </ul></li>
 <li><p><strong>Scale</strong> (スケール)</p>
-<p>データ値を「物理的な属性（画面上の位置、特定の色、点の大きさなど）」に変換する際の尺度です。たとえば、<span class="math inline">\(1\)</span> という数値を「青色」や「<span class="math inline">\(x\)</span> 軸の左端」に対応させるルールを制御します。</p></li>
+<p>データの値を「物理的な属性（画面上の位置、特定の色、点の大きさなど）」に変換する際の尺度です。たとえば、<span class="math inline">\(1\)</span> という数値を「青色」や「<span class="math inline">\(x\)</span> 軸の左端」に対応させるルールを制御します。<code>scale_*()</code> 型の関数で指定します。</p></li>
 <li><p><strong>Coord</strong> (座標系)</p>
-<p>図形的要素の位置に関する値を描画領域における実際の位置に対応付ける規則です。一般的なのはデカルト座標系 (cartesian) のほか、極座標系 (polar) などに切り替えることで、同じデータから円グラフなどを作成することもできます。</p></li>
+<p>図形的要素の位置に関する値を描画領域における実際の位置に対応付ける規則です。一般的なのはデカルト座標系 (cartesian) のほか、極座標系 (polar) などに切り替えることで、同じデータから円グラフなどを作成することもできます。<code>coord_*()</code> 型の関数で指定します。</p></li>
 <li><p><strong>Facet</strong> (ファセット)</p>
-<p>特定の変数に基づいてデータを分割し、複数のパネルに並べて表示する手法です。</p></li>
+<p>特定の変数に基づいてデータを分割し、複数のパネルに並べて表示する手法です。<code>facet_*()</code> 型の関数で指定します。</p></li>
 </ol>
 </section>
-<section id="理論に忠実なコード表現" class="level3">
-<h3 class="anchored" data-anchor-id="理論に忠実なコード表現">理論に忠実なコード表現</h3>
+<section id="理論に忠実なコード表現" class="level4">
+<h4 class="anchored" data-anchor-id="理論に忠実なコード表現">理論に忠実なコード表現</h4>
 <p>通常、私たちは <code>geom_point()</code> などの短縮関数を使いますが、Layered Grammar of Graphics の理論を厳密にコード化すると、たとえば散布図は以下のように記述されます。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -408,9 +419,9 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="ショートカット関数を用いた実際のコード表現" class="level3">
-<h3 class="anchored" data-anchor-id="ショートカット関数を用いた実際のコード表現">ショートカット関数を用いた実際のコード表現</h3>
-<p>実際には、<code>geom_point()</code> や <code>geom_histogram()</code> といった<strong>ショートカット関数</strong>が用意されています。これらは内部で <code>stat</code> や <code>position</code> をデフォルト値として持っており、適切な <strong>Layer</strong> を作り出します。さらに、<strong>Scale</strong> や <strong>Coord</strong> もデータに合わせて自動的に最適化されるため、ユーザーは極めてシンプルなコードで高度な可視化を実現できるようになっています。</p>
+<section id="短縮関数を用いた実際のコード表現" class="level4">
+<h4 class="anchored" data-anchor-id="短縮関数を用いた実際のコード表現">短縮関数を用いた実際のコード表現</h4>
+<p>実際には、<code>geom_point()</code> や <code>geom_histogram()</code> といった<strong>短縮関数</strong>が用意されています。 これらは内部で <code>stat</code> や <code>position</code> をデフォルト値として持っており、適切な <strong>Layer</strong> を作り出します。 さらに、<strong>Scale</strong> や <strong>Coord</strong> もデータの型などに合わせて自動的に選択されるため、ユーザーは極めてシンプルなコードで高度な可視化を実現できるようになっています。</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> carat, <span class="at">y =</span> price)) <span class="sc">+</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -422,15 +433,16 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p><strong>ggplot2</strong> の真価は、理論的には複雑な <code>layer()</code> の構造を、「何を表現したいか」に直結したショートカット関数で記述でき、しかも、それを柔軟に重ね合わせることが可能な点にあります。</p>
-<p>ここからは、散布図や棒グラフなどの典型的なレイヤーを描くためのコードと内部構成を紹介します。</p>
+<p><strong>ggplot2</strong> の真価は、理論的には複雑な <code>layer()</code> の構造を、「何を表現したいか」に直結した短縮関数で記述でき、しかも、それを柔軟に重ね合わせることが可能な点にあります。</p>
+<p>ここからは、散布図や棒グラフなどの代表的なレイヤーを描くためのコードと内部構成を紹介します。</p>
+</section>
 </section>
 <section id="散布図-scatter-plot" class="level3">
-<h3 class="anchored" data-anchor-id="散布図-scatter-plot">1. 散布図 (Scatter Plot)</h3>
+<h3 class="anchored" data-anchor-id="散布図-scatter-plot">散布図 (Scatter Plot)</h3>
 <p>最も基本的なレイヤーです。データ点をそのままの位置に配置します。</p>
 <ul>
 <li><p><strong>内部構成:</strong> <code>geom = "point"</code>, <code>stat = "identity"</code>, <code>position = "identity"</code></p></li>
-<li><p><strong>ショートカット:</strong> <code>geom_point()</code></p></li>
+<li><p><strong>短縮関数:</strong> <code>geom_point()</code></p></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds) <span class="sc">+</span></span>
@@ -447,13 +459,13 @@ window.Quarto = {
 </div>
 </section>
 <section id="棒グラフ-bar-chart" class="level3">
-<h3 class="anchored" data-anchor-id="棒グラフ-bar-chart">2. 棒グラフ (Bar Chart)</h3>
-<p>因子型データにおける水準の出現度数を数える場合と値をそのまま使う場合で使うべき <code>geom</code> と <code>stat</code> が変わります。</p>
-<section id="水準の出現度数を棒の高さで表現する場合" class="level4">
-<h4 class="anchored" data-anchor-id="水準の出現度数を棒の高さで表現する場合">水準の出現度数を棒の高さで表現する場合</h4>
+<h3 class="anchored" data-anchor-id="棒グラフ-bar-chart">棒グラフ (Bar Chart)</h3>
+<p>因子型データにおける水準の出現度数を棒の高さで表現する場合と変数の値をそのまま棒の高さとして使う場合で、使うべき <code>geom</code> と <code>stat</code> が変わります。</p>
+<section id="度数グラフ" class="level4">
+<h4 class="anchored" data-anchor-id="度数グラフ">度数グラフ</h4>
 <ul>
 <li><p><strong>内部構成:</strong> <code>geom = "bar"</code>, <code>stat = "count"</code>, <code>position = "stack"</code></p></li>
-<li><p><strong>ショートカット:</strong> <code>geom_bar()</code></p></li>
+<li><p><strong>短縮関数:</strong> <code>geom_bar()</code></p></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds) <span class="sc">+</span></span>
@@ -467,11 +479,11 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="データの値を棒の高さで表現する場合" class="level4">
-<h4 class="anchored" data-anchor-id="データの値を棒の高さで表現する場合">データの値を棒の高さで表現する場合</h4>
+<section id="列グラフ" class="level4">
+<h4 class="anchored" data-anchor-id="列グラフ">列グラフ</h4>
 <ul>
 <li><p><strong>内部構成:</strong> <code>geom = "col"</code>, <code>stat = "identity"</code>, <code>position = "stack"</code></p></li>
-<li><p><strong>ショートカット:</strong> <code>geom_col()</code></p></li>
+<li><p><strong>短縮関数:</strong> <code>geom_col()</code></p></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds <span class="sc">|&gt;</span> <span class="fu">count</span>(clarity)) <span class="sc">+</span>   <span class="co"># カウント済みデータを指定</span></span>
@@ -487,11 +499,11 @@ window.Quarto = {
 </section>
 </section>
 <section id="ヒストグラム-histogram" class="level3">
-<h3 class="anchored" data-anchor-id="ヒストグラム-histogram">3. ヒストグラム (Histogram)</h3>
+<h3 class="anchored" data-anchor-id="ヒストグラム-histogram">ヒストグラム (Histogram)</h3>
 <p>連続量を一定の区間 (bin) に区切り、その中のデータ数を集計します。</p>
 <ul>
 <li><p><strong>内部構成:</strong> <code>geom = "bar"</code>, <code>stat = "bin"</code>, <code>position = "stack"</code></p></li>
-<li><p><strong>ショートカット:</strong> <code>geom_histogram()</code></p></li>
+<li><p><strong>短縮関数:</strong> <code>geom_histogram()</code></p></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds) <span class="sc">+</span></span>
@@ -506,16 +518,17 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="折れ線グラフ-line-chart" class="level3">
-<h3 class="anchored" data-anchor-id="折れ線グラフ-line-chart">4. 折れ線グラフ (Line Chart)</h3>
-<p>時系列データなど、点と点を線で結んで推移を表現します。</p>
+<section id="密度曲線-density-plot" class="level3">
+<h3 class="anchored" data-anchor-id="密度曲線-density-plot">密度曲線 (Density Plot)</h3>
+<p>ヒストグラムを滑らかにしたもので、データの分布密度を推定して描画します。</p>
 <ul>
-<li><p><strong>内部構成:</strong> <code>geom = "line"</code>, <code>stat = "identity"</code>, <code>position = "identity"</code></p></li>
-<li><p><strong>ショートカット:</strong> <code>geom_line()</code></p></li>
+<li><p><strong>内部構成:</strong> <code>geom = "area"</code>, <code>stat = "density"</code>, <code>position = "identity"</code></p></li>
+<li><p><strong>短縮関数:</strong> <code>geom_density()</code></p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(economics, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> unemploy)) <span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(<span class="at">x =</span> price)) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -526,15 +539,16 @@ window.Quarto = {
 </div>
 </section>
 <section id="箱ひげ図-boxplot" class="level3">
-<h3 class="anchored" data-anchor-id="箱ひげ図-boxplot">5. 箱ひげ図 (Boxplot)</h3>
+<h3 class="anchored" data-anchor-id="箱ひげ図-boxplot">箱ひげ図 (Boxplot)</h3>
 <p>データの分布（中央値、四分位範囲、外れ値）を要約して表現します。</p>
 <ul>
 <li><p><strong>内部構成:</strong> <code>geom = "boxplot"</code>, <code>stat = "boxplot"</code>, <code>position = "dodge2"</code></p></li>
-<li><p><strong>ショートカット:</strong> <code>geom_boxplot()</code></p></li>
+<li><p><strong>短縮関数:</strong> <code>geom_boxplot()</code></p></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(<span class="at">x =</span> clarity, <span class="at">y =</span> price)) <span class="sc">+</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -544,17 +558,16 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="密度曲線-density-plot" class="level3">
-<h3 class="anchored" data-anchor-id="密度曲線-density-plot">6. 密度曲線 (Density Plot)</h3>
-<p>ヒストグラムを滑らかにしたもので、データの分布密度を推定して描画します。</p>
+<section id="折れ線グラフ-line-chart" class="level3">
+<h3 class="anchored" data-anchor-id="折れ線グラフ-line-chart">折れ線グラフ (Line Chart)</h3>
+<p>時系列データなど、点と点を線で結んで推移を表現します。</p>
 <ul>
-<li><p><strong>内部構成:</strong> <code>geom = "area"</code>, <code>stat = "density"</code>, <code>position = "identity"</code></p></li>
-<li><p><strong>ショートカット:</strong> <code>geom_density()</code></p></li>
+<li><p><strong>内部構成:</strong> <code>geom = "line"</code>, <code>stat = "identity"</code>, <code>position = "identity"</code></p></li>
+<li><p><strong>短縮関数:</strong> <code>geom_line()</code></p></li>
 </ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(<span class="at">x =</span> price)) <span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>() <span class="sc">+</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(economics, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> unemploy)) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -565,11 +578,11 @@ window.Quarto = {
 </div>
 </section>
 <section id="面グラフ-area-chart" class="level3">
-<h3 class="anchored" data-anchor-id="面グラフ-area-chart">7. 面グラフ (Area Chart)</h3>
+<h3 class="anchored" data-anchor-id="面グラフ-area-chart">面グラフ (Area Chart)</h3>
 <p>折れ線グラフの下側を塗りつぶしたものです。変化の「量」を強調したいときに使われます。</p>
 <ul>
-<li><p><strong>内部構成:</strong> <code>geom = "area"</code>, <code>stat = "identity"</code>, <code>**position = "stack"**</code></p></li>
-<li><p><strong>ショートカット:</strong> <code>geom_area()</code></p></li>
+<li><p><strong>内部構成:</strong> <code>geom = "area"</code>, <code>stat = "identity"</code>, <code>position = "stack"</code></p></li>
+<li><p><strong>短縮関数:</strong> <code>geom_area()</code></p></li>
 </ul>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(economics, <span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> unemploy)) <span class="sc">+</span></span>
@@ -583,138 +596,37 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="代表的なレイヤーの内部構成" class="level3">
-<h3 class="anchored" data-anchor-id="代表的なレイヤーの内部構成">代表的なレイヤーの内部構成</h3>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-</colgroup>
-<tbody>
-<tr class="odd">
-<td><strong>レイヤー種別</strong></td>
-<td><strong>ショートカット関数</strong></td>
-<td><strong>geom (図形的要素)</strong></td>
-<td><strong>stat (統計的変換)</strong></td>
-<td><strong>position (位置調整)</strong></td>
-<td><strong>備考</strong></td>
-</tr>
-<tr class="even">
-<td><strong>散布図</strong></td>
-<td><code>geom_point()</code></td>
-<td><code>point</code></td>
-<td><code>identity</code></td>
-<td><code>identity</code></td>
-<td>データをそのまま点で描画</td>
-</tr>
-<tr class="odd">
-<td><strong>度数グラフ</strong></td>
-<td><code>geom_bar()</code></td>
-<td><code>bar</code></td>
-<td><code>count</code></td>
-<td><code>stack</code></td>
-<td><span class="math inline">\(x\)</span>軸の値を自動で集計する</td>
-</tr>
-<tr class="even">
-<td><strong>列グラフ</strong></td>
-<td><code>geom_col()</code></td>
-<td><code>col</code></td>
-<td><code>identity</code></td>
-<td><code>stack</code></td>
-<td><span class="math inline">\(y\)</span>軸の値をそのまま棒にする</td>
-</tr>
-<tr class="odd">
-<td><strong>ヒストグラム</strong></td>
-<td><code>geom_histogram()</code></td>
-<td><code>bar</code></td>
-<td><code>bin</code></td>
-<td><code>stack</code></td>
-<td>連続値を区切って集計する</td>
-</tr>
-<tr class="even">
-<td><strong>折れ線グラフ</strong></td>
-<td><code>geom_line()</code></td>
-<td><code>line</code></td>
-<td><code>identity</code></td>
-<td><code>identity</code></td>
-<td>点を線でつなぐ</td>
-</tr>
-<tr class="odd">
-<td><strong>箱ひげ図</strong></td>
-<td><code>geom_boxplot()</code></td>
-<td><code>boxplot</code></td>
-<td><code>boxplot</code></td>
-<td><code>dodge2</code></td>
-<td>四分位点などを自動計算する</td>
-</tr>
-<tr class="even">
-<td><strong>密度曲線</strong></td>
-<td><code>geom_density()</code></td>
-<td><code>density</code></td>
-<td><code>density</code></td>
-<td><code>identity</code></td>
-<td>カーネル密度推定を行う</td>
-</tr>
-<tr class="odd">
-<td><strong>面グラフ</strong></td>
-<td><code>geom_area()</code></td>
-<td><code>area</code></td>
-<td><code>identity</code></td>
-<td><code>stack</code></td>
-<td><span class="math inline">\(x\)</span>軸と線の間を塗りつぶす</td>
-</tr>
-</tbody>
-</table>
-<hr>
-</section>
-</section>
-<section id="データの構造を色にする3つのカラーパレット" class="level2">
-<h2 class="anchored" data-anchor-id="データの構造を色にする3つのカラーパレット">データの構造を「色」にする：3つのカラーパレット</h2>
-<p>審美的属性 (Aesthetics) の中でも、<strong>色</strong>は人間の視覚に最も強く訴えかける要素です。</p>
-<p><strong>ggplot2</strong> やその拡張パッケージには、<code>color/colour</code> や <code>fill</code> 属性を制御するためのスケール関数が驚くほど豊富に用意されています。そのため、ユーザーは簡単なコードでプロットを美しく彩ることができます。しかし、選択肢が豊富であるために、ユーザーには選択の責任が生じます。データの性質や構造に即したパレットに基づくスケールを選ばなければ、グラフはどれほど美しく見えても、情報の解釈を歪め、読み手に誤解を招く原因になりかねません。</p>
-<p>色彩を「単なる飾り」ではなく「データの説明変数」として機能させるためには、以下の3つの基本パレットの使い分けをマスターすることが不可欠です。</p>
-<section id="質的パレット-qualitative" class="level3">
-<h3 class="anchored" data-anchor-id="質的パレット-qualitative">質的パレット (Qualitative)</h3>
+<section id="ヒートマップ-heatmap" class="level3">
+<h3 class="anchored" data-anchor-id="ヒートマップ-heatmap">ヒートマップ (Heatmap)</h3>
+<p><span class="math inline">\(x, y\)</span> のグリッド（格子）に対して、第3の変数 <span class="math inline">\(z\)</span> の値を色で表現します。なお、この例では汎用的な <code>geom_tile()</code> を使用しますが、グリッドサイズが一定なら、<code>geom_raster()</code> を利用して高速に描画することも可能です。</p>
+<ul>
+<li><p><strong>内部構成</strong>: geom = “tile”, stat = “identity”, position = “identity”</p></li>
+<li><p><strong>短縮関数</strong>: geom_tile()</p></li>
+</ul>
 <div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithfuld, <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting, <span class="at">fill =</span> density)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="720"></p>
+<p><img src="index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
 </div>
 </div>
-<ul>
-<li><p><strong>適したデータ</strong>: カテゴリ変数</p></li>
-<li><p><strong>特徴</strong></p>
-<p>色同士に明確な順序や大小関係がないパレットです。各カテゴリが対等な比較対象であり、はっきりと区別できることが最優先されます。隣り合う色が似すぎていないものが推奨されます。</p></li>
-<li><p><strong>代表的アプローチ</strong></p>
-<ul>
-<li><p><strong>HCL パレット</strong>: 人間の知覚に基づいた <strong>HCL 色空間</strong> (Hue: 色相、Chroma: 彩度、Luminance: 輝度) を利用します。彩度（鮮やかさ）と輝度（明るさ）を一定に保ち、色相（色の種類）のみを等間隔にサンプリングすることで、特定のカテゴリだけが目立ってしまう視覚的不平等を防ぎ、公平な比較を可能にします。</p></li>
-<li><p><strong>Okabe-Ito パレット</strong>: 色覚の特性に関わらず、多くの人が色の違いを判別できるように設計されたユニバーサルデザインのパレットです。</p></li>
-</ul></li>
-<li><p><strong>データの水準とパレットの色数に関する注意点</strong></p>
-<p>質的パレットには、対応付ける変数の水準数によって色の順序が変化するなどの特殊な挙動をするものがあります。特に、水準数がパレットの提供する色数の上限を超えた場合の挙動には注意が必要です。以下はその一例です。</p>
-<ul>
-<li><p><strong>補間</strong> (Interpolation): 足りない色を計算で作り出し、グラデーションのように対応させる。</p></li>
-<li><p><strong>循環</strong> (Cycling): 用意された色を使い切り、最初に戻って繰り返す。</p></li>
-<li><p><strong>エラー</strong>: カテゴリ数が多すぎるとして描画を停止する。</p></li>
-</ul></li>
-</ul>
 </section>
-<section id="順序連続パレット-sequential" class="level3">
-<h3 class="anchored" data-anchor-id="順序連続パレット-sequential">順序・連続パレット (Sequential)</h3>
-<p>適したデータ: ゼロから一方向に増加する連続変数 (例：人口、降水量、価格) 。</p>
-<p>特徴: 明度や彩度が、低い値から高い値に向かって一方向に滑らかに変化します。</p>
+<section id="等高線図-contour-plot" class="level3">
+<h3 class="anchored" data-anchor-id="等高線図-contour-plot">等高線図 (Contour Plot)</h3>
+<p><span class="math inline">\(x, y\)</span> 平面上の高さ (<span class="math inline">\(z\)</span> 値) が同じ地点を線で結んだり、色で塗り分けたりして表現します。</p>
+<section id="等高線" class="level4">
+<h4 class="anchored" data-anchor-id="等高線">等高線</h4>
+<ul>
+<li><p><strong>内部構成</strong>: geom = “path”, stat = “contour”, position = “identity”</p></li>
+<li><p><strong>短縮関数</strong>: geom_contour()</p></li>
+</ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par.midr</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>))</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">color.theme</span>(<span class="st">"viridis"</span>))</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">color.theme</span>(<span class="st">"mako"</span>))</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">color.theme</span>(<span class="st">"magma"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithfuld, <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting, <span class="at">z =</span> density)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -724,15 +636,15 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="発散パレット-diverging" class="level3">
-<h3 class="anchored" data-anchor-id="発散パレット-diverging">発散パレット (Diverging)</h3>
-<p>適したデータ: 明確な「中央値」や「基準値」があり、そこからプラス・マイナスに広がる連続変数 (例：気温、基準年からの増減率) 。</p>
-<p>特徴: 中央を中立な色 (白や薄いグレー) とし、両極端に向かって異なる2つの色相が濃くなっていきます。</p>
+<section id="塗りつぶし等高線" class="level4">
+<h4 class="anchored" data-anchor-id="塗りつぶし等高線">塗りつぶし等高線</h4>
+<ul>
+<li><p><strong>内部構成</strong>: geom = “polygon”, stat = “contour_filled”, position = “identity”</p></li>
+<li><p><strong>短縮関数</strong>: geom_contour_filled()</p></li>
+</ul>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par.midr</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>))</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">color.theme</span>(<span class="st">"RdBu"</span>))</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">color.theme</span>(<span class="st">"Hiroshige"</span>))</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">color.theme</span>(<span class="st">"eclipse"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(faithfuld, <span class="fu">aes</span>(<span class="at">x =</span> eruptions, <span class="at">y =</span> waiting, <span class="at">z =</span> density)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour_filled</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -741,21 +653,89 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<ol start="5" type="1">
-<li>まとめ {ggplot2} は、データを Aesthetics にマッピングする強力なキャンバスです。 幾何的オブジェクト (Geom) でデータの「骨格」を作り、データ構造に合致した「3種類のカラーパレット」を適用することで、プロットは単なる図表から、直感的で説得力のある「メッセージ」へと進化します。</li>
-</ol>
-<p>ぜひ皆様も、{ggplot2} の拡張パッケージ (ggplot2 extensions) や独自のテーマパッケージを駆使して、ご自身のデータに最適な「色」を与えてみてください。</p>
-<p>参考ウェブサイト</p>
+<hr>
+</section>
+</section>
+</section>
+<section id="データの構造を色にする3つのカラーパレット" class="level2">
+<h2 class="anchored" data-anchor-id="データの構造を色にする3つのカラーパレット">データの構造を「色」にする：3つのカラーパレット</h2>
+<p>審美的属性 (Aesthetics) の中でも、<strong>色</strong>は人間の視覚に最も強く訴えかける要素です。</p>
+<p><strong>ggplot2</strong> やその拡張パッケージには、<code>color/colour</code> や <code>fill</code> 属性を制御するためのスケール関数が驚くほど豊富に用意されています。そのため、ユーザーは簡単なコードでプロットを美しく彩ることができます。しかし、選択肢が豊富であるために、ユーザーには選択の責任が生じます。データの性質や構造に即したパレットに基づくスケールを選ばなければ、グラフはどれほど美しく見えても、情報の解釈を歪め、読み手に誤解を招く原因になりかねません。</p>
+<p>色彩を「単なる飾り」ではなく「データの説明変数」として機能させるためには、以下の3つの基本パレットの使い分けをマスターすることが不可欠です。</p>
+<section id="qualitative-質的パレット" class="level3">
+<h3 class="anchored" data-anchor-id="qualitative-質的パレット">Qualitative: 質的パレット</h3>
+<p>色同士に明確な順序や大小関係がないパレットです。 因子型変数の水準を塗り分ける用途に適しています。</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="720"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="代表例" class="level4">
+<h4 class="anchored" data-anchor-id="代表例">代表例</h4>
+<ul>
+<li><p><strong>HCL パレット</strong></p>
+<p>人間の知覚に基づいた <strong>HCL 色空間</strong> (Hue: 色相、Chroma: 彩度、Luminance: 輝度) を利用します。彩度（鮮やかさ）と輝度（明るさ）を一定に保ち、色相（色の種類）のみを等間隔にサンプリングすることで、特定のカテゴリだけが目立ってしまう視覚的不平等を防ぎ、公平な比較を可能にします。</p></li>
+<li><p><strong>Okabe-Ito パレット</strong>:</p>
+<p>色覚の特性に関わらず、多くの人が色の違いを判別できるように設計されたユニバーサルデザインのパレットです。</p></li>
+</ul>
+</section>
+<section id="データの水準とパレットの色数に関する注意点" class="level4">
+<h4 class="anchored" data-anchor-id="データの水準とパレットの色数に関する注意点">データの水準とパレットの色数に関する注意点</h4>
+<pre><code>質的パレットには、対応付ける変数の水準数によって色の順序が変化するなどの特殊な挙動をするものがあります。特に、水準数がパレットの提供する色数の上限を超えた場合の挙動には注意が必要です。以下はその一例です。</code></pre>
+<ul>
+<li><p><strong>補間</strong> (Interpolation): 足りない色を計算で作り出し、グラデーションのように対応させる。</p></li>
+<li><p><strong>循環</strong> (Cycling): 用意された色を使い切り、最初に戻って繰り返す。</p></li>
+<li><p><strong>エラー</strong>: カテゴリ数が多すぎるとして描画を停止する。</p></li>
+</ul>
+</section>
+</section>
+<section id="sequential-順序パレット" class="level3">
+<h3 class="anchored" data-anchor-id="sequential-順序パレット">Sequential: 順序パレット</h3>
+<p>明度や彩度が、低い値から高い値に向かって一方向に滑らかに変化するタイプのパレットです。 一方向に増加する数値型変数を表現する用途に適しています。</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="720"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="diverging-発散パレット" class="level3">
+<h3 class="anchored" data-anchor-id="diverging-発散パレット">Diverging: 発散パレット</h3>
+<p>白や薄いグレーのような中立な色を中央に持ち、両極端に向かって異なる2つの色相が濃くなっていくタイプのパレットです。 ゼロなどの明確な基準値があり、そこから正負の方向に広がる連続変数を表現する用途に適しています。</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid figure-img" width="720"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="storytelling-with-data" class="level2">
+<h2 class="anchored" data-anchor-id="storytelling-with-data">Storytelling With Data</h2>
+<p><strong>ggplot2</strong> パッケージは、データから柔軟にプロットを作り上げるための最強の道具です。 レイヤーを重ねてプロットの骨格を構築したら、データの構造に合致したカラーパレットで彩ることで、直感的で説得力のあるプロットを作成することができます。</p>
+<p>ぜひ皆様も、<strong>ggplot2</strong> とその拡張パッケージ (ggplot2 extensions) を駆使して、ご自身のデータに最適な色を与えてみてください。</p>
+<p><strong>Enjoy!!</strong></p>
+</section>
+<section id="参考資料" class="level2">
+<h2 class="anchored" data-anchor-id="参考資料">参考資料</h2>
 <ul>
 <li><p>ggplot2 extensions https://exts.ggplot2.tidyverse.org/</p></li>
 <li><p>all your figure are belong to us https://yutannihilation.github.io/allYourFigureAreBelongToUs/</p></li>
 <li><p>Wickham, H. (2008), “Practical Tools for Exploring Data and Models”, Ph.D.&nbsp;thesis, Iowa State University, <a href="https://dr.lib.iastate.edu/entities/publication/9210139e-102e-4537-8b6e-7d8197e2f3d8">link</a></p></li>
-<li><p>Wickham, H. (2010), “A Layered Grammar of Graphics”, Journal of Computational and Graphical Statistics, 19(1), 3–28., <a href="https://doi.org/10.1198/jcgs.2009.07098">link</a></p></li>
+<li><p>Wickham, H. (2010), “A Layered Grammar of Graphics”, Journal of Computational and Graphical Statistics, 19(1), 3–28., <a href="https://vita.had.co.nz/papers/layered-grammar.pdf">link</a></p></li>
 </ul>
-<p>https://vita.had.co.nz/papers/layered-grammar.pdf</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
