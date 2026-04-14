@@ -318,6 +318,8 @@ ggplot(diamonds, aes(x = price)) +
 -   **ショートカット:** `geom_area()`
 
 ```{r}
+#| fig-height: 3
+#| fig-width: 5
 ggplot(economics, aes(x = date, y = unemploy)) +
   geom_area()
 ```
@@ -350,11 +352,9 @@ ggplot(economics, aes(x = date, y = unemploy)) +
 
 ```{r}
 #| echo: false
-#| fig-height: 5
-#| fig-width: 5
-par.midr(mfrow = c(6, 1))
-plot(color.theme("R3"))
-plot(color.theme("R4"))
+#| fig-height: 4
+#| fig-width: 7.5
+par.midr(mfrow = c(4, 1))
 plot(color.theme("Okabe-Ito"))
 plot(color.theme("HCL"), 7)
 plot(color.theme("Set 1"))
