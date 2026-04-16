@@ -25,6 +25,7 @@ library(dplyr)
 library(gapminder)
 library(rnaturalearth)
 library(fmsb)
+library(ISLR2)
 ```
 
 ## ggplot2 を使ってみよう
@@ -64,6 +65,8 @@ ggplot(mtcars, aes(x = hp, y = mpg)) +
   theme(legend.position = "bottom")
 ```
 
+-   **mtcars** データを用いて車種ごとの馬力 ($x$ 軸) と燃費 ($y$ 軸) の関係を散布図で表現し、シリンダー数 (色) と重量 (サイズ) の情報を重ねたもの。多気筒で高重量な車種ほど強大な馬力を誇る一方で、燃費効率が著しく低下するという相関関係を読み取れる。
+
 ```{r gapminder}
 #| fig-height: 5
 #| fig-width: 7.5
@@ -87,6 +90,8 @@ ggplot(
   theme(legend.position = "bottom") +
   labs(x = "GDP per Capita", y = "Life Expectancy")
 ```
+
+-   **gapminder** データを用いて一人当たり GDP ($x$ 軸) と平均寿命 ($y$ 軸) の関係を散布図で表現し、大陸 (色) の情報を平滑化曲線とともに重ねたもの。一人当たり GDP が高い国は平均寿命も長い傾向にあるが、アフリカ大陸では一人当たり GDP が同等のほかの国より平均寿命が短いなどの地域差も見られる。
 
 ```{r life_expectancy}
 #| fig-height: 5
@@ -135,6 +140,8 @@ ggplot(data = japan) +
   )
 ```
 
+-   都道府県別平均寿命データ (**fmsb::Prefe0**) のうち 2020 年における女性の平均寿命を用いて日本地図を塗り分けたコロプレス図。全国平均である 87.7 歳を基準値として、平均寿命が長い都道府県を赤く、短い都道府県を青く塗り分けている。総じて、北海道・東北・北関東では寿命が短く、北陸・中部・関西では寿命が長い傾向にあることがわかる。
+
 ```{r penguins}
 #| fig-height: 5
 #| fig-width: 7.5
@@ -154,9 +161,11 @@ ggplot(penguins, aes(x = bill_len, y = bill_dep, fill = species, size = body_mas
   guides(fill = guide_legend(override.aes = list(size = 4))) 
 ```
 
+-   **penguins** データを島ごとに分割して、嘴の長さ ($x$ 軸) と厚さ ($y$ 軸) の関係を散布図で表現し、体重 (サイズ) と種類 (色) の情報を重ねたもの。アデリーペンギンはどの島にも生息していて、その嘴は厚さの割に短い。ヒゲペンギンは DREAM 島に生息していて、体躯が大きいために嘴も長い。ジェンツーペンギンは BISCOE 島に生息していて嘴が薄く長い。
+
 ### The Layered Grammar of Graphics
 
-**ggplot2** パッケージは、開発者の Hadley Wickham が提唱した "**Layered Grammar of Graphics**" (層状のグラフィックス文法) という理論に基づいて設計されています。
+**ggplot2** パッケージは、開発者の Hadley Wickham が提唱した "**Layered Grammar of Graphics**" という理論に基づいて設計されています。
 
 この理論において、プロットは、散布図やヒストグラムのような典型的パターンによって分類される代わりに、点や線などの図形的要素やデータに対する統計的変換などの抽象的な構成要素の組み合わせによって構成されるものとして扱われます。
 
@@ -555,19 +564,54 @@ ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
 ```{r}
 #| fig-height: 4
 #| fig-width: 6
+#| code-fold: true
 ggplot(data = diamonds) +
   geom_bar(
-    mapping = aes(x = clarity, fill = ifelse(carat < 1, "<1", ">=1")),
+    mapping = aes(x = clarity, fill = ifelse(carat < 1, "<1", ">1")),
     position = "fill"
   ) +
-  scale_fill_theme("highlight?accent='steelblue';which=2") +
+  scale_fill_theme("highlight?accent='steelblue4';which=2") +
   labs(
-    subtitle = "クラリティが向上するほど大きなダイヤモンドの割合は減少する",
+    subtitle = "透明度が高いほど大きなダイヤモンドの割合は低下する",
 #    subtitle = "Proportion of Large Diamonds Decreases as Clarity Increases",
-    fill = "Carat",
-    y = "Proportion"
+    fill = "カラット", #"Carat",
+    x = "クラリティ", #"Clarity",
+    y = "割合", #"Proportion"
   ) +
   theme_light(ink = "gray10")
+```
+
+```{r}
+#| fig-height: 4
+#| fig-width: 6
+#| message: false
+#| warning: false
+#| code-fold: true
+ggplot(
+  data = Bikeshare,
+  mapping = aes(
+    x = hr,
+    color = ifelse(weekday %in% 1:5, "月曜日～金曜日", "土曜日・日曜日"),
+    group = as.factor(weekday)
+  )
+) +
+  stat_summary(
+    geom = "line",
+    mapping = aes(y = registered)
+  ) +
+  stat_summary(
+    geom = "pointrange",
+    mapping = aes(y = registered)
+  ) +
+  labs(
+    subtitle = "貸自転車サービスの登録者の多くは通勤のために自転車を利用",
+    x = "時", # "Hour",
+    y = "登録者による利用数", # "Number of Bikers",
+    color = NULL,
+  ) +
+  scale_color_theme("highlight?which=2;accent='firebrick2'") +
+  theme_light(ink = "gray10") +
+　theme(legend.position = "bottom")
 ```
 
 ## Enjoy !!
@@ -586,6 +630,10 @@ ggplot(data = diamonds) +
 -   [**All Your Figure Are Belong To Us**](https://yutannihilation.github.io/allYourFigureAreBelongToUs/)
 
     圧倒的な事例数を誇る ggplot2 を用いた可視化のギャラリー
+
+- [Storytelling With Data - ggplot](https://github.com/adamribaudo/storytelling-with-data-ggplot?tab=readme-ov-file)
+
+    Cole Nussbaumer Knaflic の著書 *Storytelling with Data* (邦訳: Google 流資料作成術) のプロットを **ggplot2** で再現する試み
 
 -   Wickham, H. (2008), "[**Practical Tools for Exploring Data and Models**](https://dr.lib.iastate.edu/entities/publication/9210139e-102e-4537-8b6e-7d8197e2f3d8)", Ph.D. thesis, Iowa State University
 
