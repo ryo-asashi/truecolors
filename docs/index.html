@@ -220,6 +220,7 @@ window.Quarto = {
   <li><a href="#storytelling-with-data" id="toc-storytelling-with-data" class="nav-link" data-scroll-target="#storytelling-with-data">Storytelling With Data</a>
   <ul>
   <li><a href="#識別のための配色から強調のための配色へ" id="toc-識別のための配色から強調のための配色へ" class="nav-link" data-scroll-target="#識別のための配色から強調のための配色へ">識別のための配色から強調のための配色へ</a></li>
+  <li><a href="#説明的な可視化の例" id="toc-説明的な可視化の例" class="nav-link" data-scroll-target="#説明的な可視化の例">説明的な可視化の例</a></li>
   </ul></li>
   <li><a href="#enjoy" id="toc-enjoy" class="nav-link" data-scroll-target="#enjoy">Enjoy !!</a></li>
   <li><a href="#リンク集" id="toc-リンク集" class="nav-link" data-scroll-target="#リンク集">リンク集</a></li>
@@ -270,7 +271,8 @@ window.Quarto = {
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># data providers</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rnaturalearth)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fmsb)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fmsb)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ISLR2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <section id="ggplot2-を使ってみよう" class="level2">
@@ -311,6 +313,9 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<ul>
+<li><strong>mtcars</strong> データを用いて車種ごとの馬力 (<span class="math inline">\(x\)</span> 軸) と燃費 (<span class="math inline">\(y\)</span> 軸) の関係を散布図で表現し、シリンダー数 (色) と重量 (サイズ) の情報を重ねたもの。多気筒で高重量な車種ほど強大な馬力を誇る一方で、燃費効率が著しく低下するという相関関係を読み取れる。</li>
+</ul>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -339,6 +344,9 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<ul>
+<li><strong>gapminder</strong> データを用いて一人当たり GDP (<span class="math inline">\(x\)</span> 軸) と平均寿命 (<span class="math inline">\(y\)</span> 軸) の関係を散布図で表現し、大陸 (色) の情報を平滑化曲線とともに重ねたもの。一人当たり GDP が高い国は平均寿命も長い傾向にあるが、アフリカ大陸では一人当たり GDP が同等のほかの国より平均寿命が短いなどの地域差も見られる。</li>
+</ul>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -390,6 +398,9 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<ul>
+<li>都道府県別平均寿命データ (<strong>fmsb::Prefe0</strong>) のうち 2020 年における女性の平均寿命を用いて日本地図を塗り分けたコロプレス図。全国平均である 87.7 歳を基準値として、平均寿命が長い都道府県を赤く、短い都道府県を青く塗り分けている。総じて、北海道・東北・北関東では寿命が短く、北陸・中部・関西では寿命が長い傾向にあることがわかる。</li>
+</ul>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -413,9 +424,12 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<ul>
+<li><strong>penguins</strong> データを島ごとに分割して、嘴の長さ (<span class="math inline">\(x\)</span> 軸) と厚さ (<span class="math inline">\(y\)</span> 軸) の関係を散布図で表現し、体重 (サイズ) と種類 (色) の情報を重ねたもの。アデリーペンギンはどの島にも生息していて、その嘴は厚さの割に短い。ヒゲペンギンは DREAM 島に生息していて、体躯が大きいために嘴も長い。ジェンツーペンギンは BISCOE 島に生息していて嘴が薄く長い。</li>
+</ul>
 <section id="the-layered-grammar-of-graphics" class="level3">
 <h3 class="anchored" data-anchor-id="the-layered-grammar-of-graphics">The Layered Grammar of Graphics</h3>
-<p><strong>ggplot2</strong> パッケージは、開発者の Hadley Wickham が提唱した “<strong>Layered Grammar of Graphics</strong>” (層状のグラフィックス文法) という理論に基づいて設計されています。</p>
+<p><strong>ggplot2</strong> パッケージは、開発者の Hadley Wickham が提唱した “<strong>Layered Grammar of Graphics</strong>” という理論に基づいて設計されています。</p>
 <p>この理論において、プロットは、散布図やヒストグラムのような典型的パターンによって分類される代わりに、点や線などの図形的要素やデータに対する統計的変換などの抽象的な構成要素の組み合わせによって構成されるものとして扱われます。</p>
 <section id="プロットを構成する基本要素" class="level4">
 <h4 class="anchored" data-anchor-id="プロットを構成する基本要素">プロットを構成する基本要素</h4>
@@ -840,20 +854,27 @@ window.Quarto = {
 <p>データの可視化には、全容を把握するための<strong>探索的</strong>なフェーズと、伝えたいメッセージを強調する<strong>説明的</strong>なフェーズがあります。</p>
 <p>探索的な可視化においてはデータの識別性を高めることが重要ですが、説明的な可視化においては<strong>データを使って語ること (Storytelling With Data)</strong> が重要です。 そして、その核心は「読者の認知負荷を減らし、見てほしい場所に一瞬で視線を誘導すること」にあります。</p>
 <p>プロットの中で多くの色を使い分けると、聞き手・読み手が色の意味を把握するために凡例とプロットの本体との間を何度も往復することになります。 伝えたいメッセージだけを強調するためには、主役以外の部分をグレーアウトするという手法が極めて有効です。</p>
+</section>
+<section id="説明的な可視化の例" class="level3">
+<h3 class="anchored" data-anchor-id="説明的な可視化の例">説明的な可視化の例</h3>
 <div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> diamonds) <span class="sc">+</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> clarity, <span class="at">fill =</span> <span class="fu">ifelse</span>(carat <span class="sc">&lt;</span> <span class="dv">1</span>, <span class="st">"&lt;1"</span>, <span class="st">"&gt;=1"</span>)),</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> clarity, <span class="at">fill =</span> <span class="fu">ifelse</span>(carat <span class="sc">&lt;</span> <span class="dv">1</span>, <span class="st">"&lt;1"</span>, <span class="st">"&gt;1"</span>)),</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">position =</span> <span class="st">"fill"</span></span>
 <span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_theme</span>(<span class="st">"highlight?accent='steelblue';which=2"</span>) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_theme</span>(<span class="st">"highlight?accent='steelblue4';which=2"</span>) <span class="sc">+</span></span>
 <span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"クラリティが向上するほど大きなダイヤモンドの割合は減少する"</span>,</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"透明度が高いほど大きなダイヤモンドの割合は低下する"</span>,</span>
 <span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#    subtitle = "Proportion of Large Diamonds Decreases as Clarity Increases",</span></span>
-<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Carat"</span>,</span>
-<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Proportion"</span></span>
-<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">ink =</span> <span class="st">"gray10"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"カラット"</span>, <span class="co">#"Carat",</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"クラリティ"</span>, <span class="co">#"Clarity",</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"割合"</span>, <span class="co">#"Proportion"</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">ink =</span> <span class="st">"gray10"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -862,12 +883,62 @@ window.Quarto = {
 </div>
 </div>
 </div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> Bikeshare,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> hr,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="fu">ifelse</span>(weekday <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">"月曜日～金曜日"</span>, <span class="st">"土曜日・日曜日"</span>),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">group =</span> <span class="fu">as.factor</span>(weekday)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"line"</span>,</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> registered)</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">geom =</span> <span class="st">"pointrange"</span>,</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">y =</span> registered)</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"貸自転車サービスの登録者の多くは通勤のために自転車を利用"</span>,</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"時"</span>, <span class="co"># "Hour",</span></span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"登録者による利用数"</span>, <span class="co"># "Number of Bikers",</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="cn">NULL</span>,</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_theme</span>(<span class="st">"highlight?which=2;accent='firebrick2'"</span>) <span class="sc">+</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">ink =</span> <span class="st">"gray10"</span>) <span class="sc">+</span></span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>　<span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid figure-img" width="576"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>以上の例のように、カラーパレットを変えることで配色を調整する場合、強調したいデータがその他のデータに埋もれてしまうことがあります。 そうした場合に特定の条件を満たすデータを強調するには、<strong>gghighlight</strong> パッケージが有効です。 <code>gghighlight()</code> 関数をプロットに重ねるだけで、強調するデータのみを表示するレイヤーを重ねてくれるため、他のデータに埋もれてしまうことがありません。</p>
+</div>
+</div>
 </section>
 </section>
 <section id="enjoy" class="level2">
 <h2 class="anchored" data-anchor-id="enjoy">Enjoy !!</h2>
-<p><strong>ggplot2</strong> パッケージは、データから柔軟にプロットを作り上げるための最強の道具です。 レイヤーを重ねてプロットの骨格を構築し、データの構造に合致したカラーパレットで彩ることで、プロットを作成することができます。</p>
-<p>ぜひ皆様も、<strong>ggplot2</strong> とその拡張パッケージ (ggplot2 extensions) を駆使して、ご自身のデータに最適な色を与えてみてください。</p>
+<p><strong>ggplot2</strong> パッケージは、データから柔軟にプロットを作り上げるための最強の道具です。 レイヤーを重ねてプロットの骨格を構築し、データの構造に合致したカラーパレットで彩ることで、データの理解を深めるために有用なプロットを作成することができます。</p>
+<p>ぜひ皆様も、<strong>ggplot2</strong> とその拡張パッケージ (ggplot2 extensions) を駆使して、データの可視化に取り組んでみてください。</p>
 </section>
 <section id="リンク集" class="level2">
 <h2 class="anchored" data-anchor-id="リンク集">リンク集</h2>
@@ -876,6 +947,8 @@ window.Quarto = {
 <p>ggplot2 の拡張パッケージを網羅的に紹介している公式ウェブサイト</p></li>
 <li><p><a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/"><strong>All Your Figure Are Belong To Us</strong></a></p>
 <p>圧倒的な事例数を誇る ggplot2 を用いた可視化のギャラリー</p></li>
+<li><p><a href="https://github.com/adamribaudo/storytelling-with-data-ggplot?tab=readme-ov-file">Storytelling With Data - ggplot</a></p>
+<p>Cole Nussbaumer Knaflic の著書 <em>Storytelling with Data</em> (邦訳: Google 流資料作成術) のプロットを <strong>ggplot2</strong> で再現する試み</p></li>
 <li><p>Wickham, H. (2008), “<a href="https://dr.lib.iastate.edu/entities/publication/9210139e-102e-4537-8b6e-7d8197e2f3d8"><strong>Practical Tools for Exploring Data and Models</strong></a>”, Ph.D.&nbsp;thesis, Iowa State University</p>
 <p>Hadley Wickham 氏の博士論文</p></li>
 <li><p>Wickham, H. (2010), “<a href="https://vita.had.co.nz/papers/layered-grammar.pdf"><strong>A Layered Grammar of Graphics</strong></a>”, Journal of Computational and Graphical Statistics, 19(1), 3–28.</p>
@@ -904,7 +977,8 @@ window.Quarto = {
 - dplyr: 1.2.0
 - gapminder: 1.0.1
 - rnaturalearth: 1.2.0
-- fmsb: 0.7.6</code></pre>
+- fmsb: 0.7.6
+- ISLR2: 1.3.2</code></pre>
 </div>
 </div>
 
