@@ -1,0 +1,681 @@
+---
+title: "Tokyo.R #120 データの可視化"
+---
+
+```{r library}
+#| message: false
+#| warning: false
+#| code-fold: true
+# ggplot2
+library(ggplot2)
+
+# ggplot2 extensions
+library(ggrepel)
+library(midr)
+library(midnight)
+library(khroma)
+library(MetBrewer)
+library(RColorBrewer)
+library(viridisLite)
+
+# data handling
+library(dplyr)
+
+# data providers
+library(gapminder)
+library(rnaturalearth)
+library(fmsb)
+library(ISLR2)
+```
+
+## ggplot2 を使ってみよう
+
+**ggplot2** は、**R** でデータの可視化を行う際に標準的に利用されているパッケージです。
+その豊富な機能に加え、単体では作成できないプロットを実現するための多くの拡張パッケージが開発されています。
+
+### 探索的な可視化の例
+
+データを可視化する目的の一つは、そのデータをよりよく理解することです。
+そのための可視化を**探索的**な可視化と呼ぶことにしましょう。
+**ggplot2** はまさに探索的な可視化に適したパッケージであり、拡張パッケージも含めて活用することで、たとえば以下のようなプロットを作成できます。
+
+```{r mtcars}
+#| fig-height: 5
+#| fig-width: 7.5
+#| message: false
+#| warning: false
+#| code-fold: true
+ggplot(mtcars, aes(x = hp, y = mpg)) +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), 
+              color = "grey80", fill = "grey90", alpha = 0.5) +
+  geom_point(aes(size = wt, color = factor(cyl)), alpha = 0.8) +
+  geom_text_repel(
+    aes(label = rownames(mtcars)),
+    size = 3,
+    box.padding = 0.4,
+    point.padding = 0.2,
+    segment.alpha = 0.5,
+    max.overlaps = 15
+  ) +
+  scale_size_continuous(range = c(1, 8)) +
+  scale_color_brewer(palette = "Set1") +
+  labs(
+    x = "Gross Horsepower",
+    y = "Fuel Efficiency (Miles per Gallon)",
+    size = "Weight",
+    color = "Cylinders"
+  ) +
+  theme_midr(grid = "xy") +
+  theme(legend.position = "bottom")
+```
+
+-   **mtcars** データを用いて車種ごとの馬力 ($x$ 軸) と燃費 ($y$ 軸) の関係を散布図で表現し、シリンダー数 (色) と重量 (サイズ) の情報を重ねたもの。多気筒で高重量な車種ほど強大な馬力を誇る一方で、燃費効率が著しく低下するという相関関係を読み取れる。
+
+```{r gapminder}
+#| fig-height: 5
+#| fig-width: 7.5
+#| warning: false
+#| message: false
+#| code-fold: true
+ggplot(
+  data = gapminder,
+  mapping = aes(
+    x = gdpPercap,
+    y = lifeExp,
+    color = continent
+  )
+) +
+  geom_point() +
+  geom_smooth(method = "gam", formula = y ~ s(x)) +
+  scale_x_log10() +
+  scale_color_theme(theme = "moon") +
+  scale_fill_theme(theme = "moon") +
+  theme_midr(grid = "xy") +
+  theme(legend.position = "bottom") +
+  labs(x = "GDP per Capita", y = "Life Expectancy")
+```
+
+-   **gapminder** データを用いて一人当たり GDP ($x$ 軸) と平均寿命 ($y$ 軸) の関係を散布図で表現し、大陸 (色) の情報を平滑化曲線とともに重ねたもの。一人当たり GDP が高い国は平均寿命も長い傾向にあるが、アフリカ大陸では一人当たり GDP が同等のほかの国より平均寿命が短いなどの地域差も見られる。
+
+```{r life_expectancy}
+#| fig-height: 5
+#| fig-width: 7.5
+#| warning: false
+#| message: false
+#| code-fold: true
+japan <- ne_states(
+  country = "japan",
+  returnclass = "sf"
+) |>
+  mutate (
+    name = name |>
+      gsub(pattern = "Ō", replacement = "O") |>
+      gsub(pattern = "ō", replacement = "o") |>
+      gsub(pattern = "Kochi", replacement = "Kouchi")
+  ) |>
+  left_join(
+    Prefe0 |> select(PNAME, E0F.2020),
+    by = c("name" = "PNAME")
+  )
+
+#legend_label = "歳"
+legend_label = "Years"
+
+ggplot(data = japan) +
+  geom_sf(
+    mapping = aes(
+      color = E0F.2020,
+      fill = E0F.2020
+    )
+  ) +
+  scale_color_theme("eclipse", middle = 87.74) +
+  scale_fill_theme("eclipse", middle = 87.74) +
+  coord_sf(
+    xlim = c(125.5, 146.5), ylim = c(26.5, 45.0)
+  ) +
+  labs(
+    fill = legend_label, color = legend_label,
+    title = "Life Expectancy at Birth by Prefecture",
+    subtitle = "Japan, Female, 2020 — Average: 87.7 Years"
+  ) +
+  theme_midr(grid = "xy") +
+  theme(
+    legend.key.height = unit(55, "pt")
+  )
+```
+
+-   都道府県別平均寿命データ (**fmsb::Prefe0**) のうち 2020 年における女性の平均寿命を用いて日本地図を塗り分けたコロプレス図。全国平均である 87.7 歳を基準値として、平均寿命が長い都道府県を赤く、短い都道府県を青く塗り分けている。総じて、北海道・東北・北関東では寿命が短く、北陸・中部・関西では寿命が長い傾向にあることがわかる。
+
+```{r penguins}
+#| fig-height: 5
+#| fig-width: 7.5
+#| message: false
+#| warning: false
+#| code-fold: true
+ggplot(penguins, aes(x = bill_len, y = bill_dep, fill = species, size = body_mass)) +
+  geom_point(shape = 21) +
+  scale_fill_theme("mako@qual?alpha=.5") +
+  facet_grid(. ~ toupper(island)) +
+  labs(x = "Bill Length", y = "Bill Depth", fill = "Species", size = "Body Mass") +
+  theme_midr(grid = "xy") +
+  theme(
+    legend.position = "bottom",
+    strip.background = element_rect(fill = "gray10", color = "gray10", size = 1.5)
+  ) + 
+  guides(fill = guide_legend(override.aes = list(size = 4))) 
+```
+
+-   **penguins** データを島ごとに分割して、嘴の長さ ($x$ 軸) と厚さ ($y$ 軸) の関係を散布図で表現し、体重 (サイズ) と種類 (色) の情報を重ねたもの。アデリーペンギンはどの島にも生息していて、その嘴は厚さの割に短い。ヒゲペンギンは DREAM 島に生息していて、体躯が大きいために嘴も長い。ジェンツーペンギンは BISCOE 島に生息していて嘴が薄く長い。
+
+### The Layered Grammar of Graphics
+
+**ggplot2** パッケージは、開発者の Hadley Wickham が提唱した "**Layered Grammar of Graphics**" という理論に基づいて設計されています。
+
+この理論において、プロットは、散布図やヒストグラムのような典型的パターンによって分類される代わりに、点や線などの図形的要素やデータに対する統計的変換などの抽象的な構成要素の組み合わせによって構成されるものとして扱われます。
+
+#### プロットを構成する基本要素
+
+1.  **Defaults** (デフォルト設定)
+
+    プロット全体で共有される基盤です。`ggplot()` 関数で `data` (データフレーム) と `mapping` を指定します。
+
+    -   **mapping**: データの変数を、図形的要素を特徴付ける $x$座標、$y$座標、色、形などの **Aesthetics** (審美的属性) に対応付ける規則です。`aes()` 関数を通して指定されます。
+
+2.  **Layer** (レイヤー)
+
+    データを実際に図形として描写する層です。一つのプロットは複数のレイヤーを持つことができ、各レイヤーは以下の要素で構成されます。`layer()` 関数で作成可能ですが、通常は `geom_*()` 型や `stat_*()` 型の短縮関数を用いて作成します。
+
+    -   **geom** (Geometric object): 点 (point)、線 (line)、棒 (bar) など、実際に描画される図形的要素の種類です。
+
+    -   **stat** (Statistical transformation): データに対する統計的変換の方法です。データをそのまま使うのか (identity)、あるいは要約統計量 (summary) や平滑化曲線 (smooth) などを計算してから使うのかを定めます。
+
+    -   **position** (Position adjustment): 棒の積み上げ (stack) や点の散らばり (jitter) など、図形的要素の配置を調整する方法です。名前や `position_*()` 型の関数で指定できます。
+
+3.  **Scale** (スケール)
+
+    データの値を「物理的な属性（画面上の位置、特定の色、点の大きさなど）」に変換する際の尺度です。たとえば、$1$ という数値を「青色」や「$x$ 軸の左端」に対応させるルールを制御します。`scale_*()` 型の関数で指定します。
+
+4.  **Coord** (座標系)
+
+    図形的要素の位置に関する値を描画領域における実際の位置に対応付ける規則です。一般的なのはデカルト座標系 (cartesian) のほか、極座標系 (polar) などに切り替えることで、同じデータから円グラフなどを作成することもできます。`coord_*()` 型の関数で指定します。
+
+5.  **Facet** (ファセット)
+
+    特定の変数に基づいてデータを分割し、複数のパネルに並べて表示する手法です。`facet_*()` 型の関数で指定します。
+
+#### 理論に忠実なコード表現
+
+通常、私たちは `geom_point()` などの短縮関数を使いますが、Layered Grammar of Graphics の理論を厳密にコード化すると、たとえば散布図は以下のように記述されます。
+
+```{r}
+#| fig-height: 5
+#| fig-width: 5
+#| warning: false
+#| message: false
+#| code-fold: false
+ggplot() +
+  layer(
+    data = diamonds,
+    mapping = aes(x = carat, y = price),
+    geom = "point",        # データを点で表現
+    stat = "identity",     # データを加工せずそのまま使用
+    position = "identity"  # 重なりを調整せずそのまま配置
+  ) +
+  scale_y_continuous() +   # y軸に連続値のスケールを指定
+  scale_x_continuous() +   # x軸に連続値のスケールを指定
+  coord_cartesian()        # 直交座標系を指定
+```
+
+#### 短縮関数を用いた実際のコード表現
+
+実際には、`geom_point()` や `geom_histogram()` といった**短縮関数**が用意されています。
+これらは内部で `stat` や `position` をデフォルト値として持っており、適切な **Layer** を作り出します。
+さらに、**Scale** や **Coord** もデータの型などに合わせて自動的に選択されるため、ユーザーは極めてシンプルなコードで高度な可視化を実現できるようになっています。
+
+```{r}
+#| fig-height: 5
+#| fig-width: 5
+#| warning: false
+#| message: false
+#| code-fold: false
+ggplot(data = diamonds, mapping = aes(x = carat, y = price)) +
+  geom_point()
+```
+
+**ggplot2** の真価は、理論的には複雑な `layer()` の構造を、「何を表現したいか」に直結した短縮関数で記述でき、しかも、それを柔軟に重ね合わせることが可能な点にあります。
+
+ここからは、散布図や棒グラフなどの代表的なレイヤーを描くためのコードと内部構成を紹介します。
+
+### 散布図 (Scatter Plot)
+
+最も基本的なレイヤーです。データ点をそのままの位置に配置します。
+
+-   **内部構成:** `geom = "point"`, `stat = "identity"`, `position = "identity"`
+
+-   **短縮関数:** `geom_point()`
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(data = diamonds) +
+  geom_point(mapping = aes(x = carat, y = price)) +
+  scale_x_log10() +  # x軸に対数スケールを指定
+  scale_y_log10()    # y軸に対数スケールを指定
+```
+
+### 棒グラフ (Bar Chart)
+
+因子型データにおける水準の出現度数を棒の高さで表現する場合と変数の値をそのまま棒の高さとして使う場合で、使うべき `geom` と `stat` が変わります。
+
+#### 度数グラフ
+
+-   **内部構成:** `geom = "bar"`, `stat = "count"`, `position = "stack"`
+
+-   **短縮関数:** `geom_bar()`
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = clarity)) 
+```
+
+#### 列グラフ
+
+-   **内部構成:** `geom = "col"`, `stat = "identity"`, `position = "stack"`
+
+-   **短縮関数:** `geom_col()`
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(data = diamonds |> count(clarity)) +   # カウント済みデータを指定
+  geom_col(mapping = aes(x = clarity, y = n)) # x軸上の位置に水準を対応付ける
+```
+
+### ヒストグラム (Histogram)
+
+連続量を一定の区間 (bin) に区切り、その中のデータ数を集計します。
+
+-   **内部構成:** `geom = "bar"`, `stat = "bin"`, `position = "stack"`
+
+-   **短縮関数:** `geom_histogram()`
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(diamonds) +
+  geom_histogram(aes(x = price), bins = 20) +
+  scale_x_log10()
+```
+
+### 密度曲線 (Density Plot)
+
+ヒストグラムを滑らかにしたもので、データの分布密度を推定して描画します。
+
+-   **内部構成:** `geom = "area"`, `stat = "density"`, `position = "identity"`
+
+-   **短縮関数:** `geom_density()`
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(diamonds, aes(x = price)) +
+  geom_density() +
+  scale_x_log10()
+```
+
+### 箱ひげ図 (Boxplot)
+
+データの分布（中央値、四分位範囲、外れ値）を要約して表現します。
+
+-   **内部構成:** `geom = "boxplot"`, `stat = "boxplot"`, `position = "dodge2"`
+
+-   **短縮関数:** `geom_boxplot()`
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(diamonds, aes(x = clarity, y = price)) +
+  geom_boxplot() +
+  scale_y_log10()
+```
+
+### 折れ線グラフ (Line Chart)
+
+時系列データなど、点と点を線で結んで推移を表現します。
+
+-   **内部構成:** `geom = "line"`, `stat = "identity"`, `position = "identity"`
+
+-   **短縮関数:** `geom_line()`
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(economics, aes(x = date, y = unemploy)) +
+  geom_line()
+```
+
+### 面グラフ (Area Chart)
+
+折れ線グラフの下側を塗りつぶしたものです。変化の「量」を強調したいときに使われます。
+
+-   **内部構成:** `geom = "area"`, `stat = "identity"`, `position = "stack"`
+
+-   **短縮関数:** `geom_area()`
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(economics, aes(x = date, y = unemploy)) +
+  geom_area()
+```
+
+### ヒートマップ (Heatmap)
+
+$x, y$ のグリッド（格子）に対して、第3の変数 $z$ の値を色で表現します。なお、この例では汎用的な `geom_tile()` を使用しますが、グリッドサイズが一定なら、`geom_raster()` を利用して高速に描画することも可能です。
+
+-   **内部構成**: geom = "tile", stat = "identity", position = "identity"
+
+-   **短縮関数**: geom_tile()
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
+  geom_tile()
+```
+
+### 等高線図 (Contour Plot)
+
+$x, y$ 平面上の高さ ($z$ 値) が同じ地点を線で結んだり、色で塗り分けたりして表現します。
+
+#### 等高線
+
+-   **内部構成**: geom = "path", stat = "contour", position = "identity"
+
+-   **短縮関数**: geom_contour()
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(faithfuld, aes(x = eruptions, y = waiting, z = density)) +
+  geom_contour()
+```
+
+#### 塗りつぶし等高線
+
+-   **内部構成**: geom = "polygon", stat = "contour_filled", position = "identity"
+
+-   **短縮関数**: geom_contour_filled()
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(faithfuld, aes(x = eruptions, y = waiting, z = density)) +
+  geom_contour_filled()
+```
+
+------------------------------------------------------------------------
+
+## データの構造を色にする: 3種類のカラーパレット
+
+審美的属性 (Aesthetics) の中でも、**色**は人間の視覚に最も強く訴えかける要素です。
+
+**ggplot2** やその拡張パッケージには、`color/colour` や `fill` 属性を制御するためのスケール関数が驚くほど豊富に用意されています。
+そのため、ユーザーは簡単なコードでプロットを美しく彩ることができます。
+
+しかし、選択肢が豊富であるために、ユーザーには選択の責任が生じます。
+データの性質や構造に即した配色のスケールを選ばなければ、グラフはどれほど美しく見えても、情報の解釈を歪め、読み手の誤解を招く原因になりかねません。
+
+色を、単なるプロットの飾りとしてではなく、データの理解に役立つ要素として機能させるためには、**Qualitative** (質的)、**Sequential** (順序)、**Diverging** (発散) という基本的な3種類のカラーパレットの使い分けを習得することが重要です。
+
+### Qualitative: 質的カラーパレット
+
+色同士に明確な順序や大小関係がない配色です。
+因子型変数の水準を塗り分ける用途に適しています。
+
+#### 配色の例
+
+```{r}
+#| echo: false
+#| fig-height: 5
+#| fig-width: 5
+par.midr(mfrow = c(6, 1))
+plot(color.theme("Okabe-Ito"))
+plot(color.theme("HCL"), 5)
+plot(color.theme("Set 1"))
+plot(color.theme("Tableau 10"))
+plot(color.theme("R4"))
+plot(color.theme("Austria"))
+```
+
+-   **Okabe-Ito パレット**: 
+
+    色覚の特性に関わらず、多くの人が色の違いを判別できるように設計されたユニバーサルデザインの配色です。
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+set.seed(42)
+ggplot(data = diamonds |> sample_n(5000)) +
+  geom_point(mapping = aes(x = carat, y = price, color = clarity)) +
+  scale_color_okabeito()
+```
+
+-   **HCL パレット**
+
+    人間の知覚に基づいた **HCL 色空間** (Hue: 色相、Chroma: 彩度、Luminance: 輝度) を利用するパレットです。彩度（鮮やかさ）と輝度（明るさ）を一定に保ち、色相（色の種類）のみを等間隔にサンプリングすることで、特定のカテゴリだけが目立ってしまう視覚的不平等を防ぎ、公平な比較を可能にします。
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+set.seed(42)
+ggplot(data = diamonds |> sample_n(5000)) +
+  geom_point(mapping = aes(x = carat, y = price, color = cut)) +
+  scale_color_hue()
+```
+
+::: {.callout-tip title="データの水準数がパレットの色数を超える場合"}
+質的パレットには、対応付ける変数の水準数によって色の順序が変化するなどの特殊な挙動をするものがあります。
+特に、水準数がパレットの提供する色数の上限を超えた場合の挙動には注意が必要です。以下はその一例です。
+
+-   **補間** (Interpolation): 足りない色を計算で作り出し、グラデーションのように対応させる。
+
+-   **循環** (Cycling): 用意された色を使い切り、最初に戻って繰り返す。
+
+-   **エラー**: カテゴリ数が多すぎるとして描画を停止する。
+:::
+
+### Sequential: 順序カラーパレット
+
+明度や彩度が低い色から高い色に向かって連続的に変化するタイプのパレットです。
+一方向に増加する数値型変数を表現する用途に適しています。
+
+#### 配色の例
+
+```{r}
+#| echo: false
+#| fig-height: 5
+#| fig-width: 5
+par.midr(mfrow = c(6, 1))
+plot(color.theme("Viridis"))
+plot(color.theme("bluescale"))
+plot(color.theme("Grays"))
+plot(color.theme("Heat"))
+plot(color.theme("Mako"))
+plot(color.theme("tokyo"))
+```
+
+-   **Viridis パレット**
+
+    現在、データサイエンスの世界で最も推奨されているパレットの一つです。色の変化が人間の目にとって「数値の変化」と等しく感じられるよう数学的に設計されています。色覚多様性への配慮という観点からも推奨されています。
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
+  geom_tile() +
+  scale_fill_viridis_c()
+```
+
+### Diverging: 発散カラーパレット
+
+白や薄いグレーのような中立な色を中央に持ち、両極端に向かって異なる2つの色相が濃くなっていくタイプのパレットです。
+ゼロや平均値などの明確な基準値があり、そこから正負の方向に広がる連続変数を表現する用途に適しています。
+
+#### 配色の例
+
+```{r}
+#| echo: false
+#| fig-height: 5
+#| fig-width: 5
+par.midr(mfrow = c(6, 1))
+plot(color.theme("RdBu"))
+plot(color.theme("Temps"))
+plot(color.theme("Spectral"))
+plot(color.theme("Berlin"))
+plot(color.theme("Zissou 1"))
+plot(color.theme("Hiroshige"))
+```
+
+-   **Red-Blue パレット**
+
+    赤と青という2色の直感的なイメージを利用した、最もポピュラーな発散パレットの一つです。
+
+```{r}
+#| fig-height: 3
+#| fig-width: 5
+ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
+  geom_tile() +
+  scale_fill_theme("RdBu", middle = 0.01)
+```
+
+::: {.callout-tip title="paletteer パッケージ"}
+カラーパレットは非常に多くのパッケージに実装されており、欲しいパレットを提供している関数を探すのは容易ではありません。
+そうした場合に役立つのが **paletteer** パッケージです。このパッケージは **R** の世界に存在する無数のカラーパレットを共通のインターフェースで利用できるようにすることを目的とするパッケージで、`scale_color_paletteer_d()` や `scale_fill_paletteer_d()` といった関数を使って様々なパレットを試すことができます。
+:::
+
+---
+
+## Storytelling With Data
+
+### 識別のための配色から強調のための配色へ
+
+データの可視化には、全容を把握するための**探索的**なフェーズと、伝えたいメッセージを強調する**説明的**なフェーズがあります。
+
+探索的な可視化においてはデータの識別性を高めることが重要ですが、説明的な可視化においては**データを使って語ること (Storytelling With Data)** が重要です。
+そして、その核心は「読者の認知負荷を減らし、見てほしい場所に一瞬で視線を誘導すること」にあります。
+
+プロットの中で多くの色を使い分けると、聞き手・読み手が色の意味を把握するために凡例とプロットの本体との間を何度も往復することになります。
+伝えたいメッセージだけを強調するためには、主役以外の部分をグレーアウトするという手法が極めて有効です。
+
+### 説明的な可視化の例
+
+```{r}
+#| fig-height: 4
+#| fig-width: 6
+#| code-fold: true
+ggplot(data = diamonds) +
+  geom_bar(
+    mapping = aes(x = clarity, fill = ifelse(carat < 1, "<1", ">1")),
+    position = "fill"
+  ) +
+  scale_fill_theme("highlight?accent='steelblue4';which=2") +
+  labs(
+    subtitle = "透明度が高いほど大きなダイヤモンドの割合は低下する",
+#    subtitle = "Proportion of Large Diamonds Decreases as Clarity Increases",
+    fill = "カラット", #"Carat",
+    x = "クラリティ", #"Clarity",
+    y = "割合", #"Proportion"
+  ) +
+  theme_light(ink = "gray10")
+```
+
+```{r}
+#| fig-height: 4
+#| fig-width: 6
+#| message: false
+#| warning: false
+#| code-fold: true
+ggplot(
+  data = Bikeshare,
+  mapping = aes(
+    x = hr,
+    color = ifelse(workingday, "平日", "休日"),
+    group = as.factor(workingday)
+  )
+) +
+  annotate(
+    "rect", xmin = 8.5, xmax = 9.5, ymin = -Inf, ymax = Inf,
+    fill = "salmon", alpha = .2
+  ) +
+  annotate(
+    "rect", xmin = 17.5, xmax = 19.5, ymin = -Inf, ymax = Inf,
+    fill = "salmon", alpha = .2
+  ) +
+  geom_line(
+    stat = "summary", linewidth = 1,
+    mapping = aes(y = registered)
+  ) +
+  geom_point(
+    stat = "summary", size = 3,
+    mapping = aes(y = registered)
+  ) +
+  labs(
+    subtitle = "貸自転車サービスの登録者の多くは通勤のために自転車を利用",
+    x = "時", # "Hour",
+    y = "登録者による利用数", # "Number of Bikers",
+    color = NULL,
+  ) +
+  scale_color_theme("highlight?which=2;accent='firebrick2'") +
+  theme_light(ink = "gray10") +
+　theme(legend.position = "bottom")
+```
+
+::: {.callout-tip title="gghighlight パッケージ"}
+例のように、カラーパレットを変えることで配色を調整する場合、強調したいデータがその他のデータに埋もれてしまうことがあります。
+そうした場合に特定の条件を満たすデータを強調するには、**gghighlight** パッケージが有効です。
+`gghighlight()` 関数をプロットに重ねるだけで、強調するデータのみを表示するレイヤーを重ねてくれるため、他のデータに埋もれてしまうことがありません。
+:::
+
+## Enjoy !!
+
+**ggplot2** パッケージは、データから柔軟にプロットを作り上げるための最強の道具です。
+レイヤーを重ねてプロットの骨格を構築し、データの構造に合致したカラーパレットで彩ることで、データの理解を深めるために有用なプロットを作成することができます。
+
+ぜひ皆様も、**ggplot2** とその拡張パッケージ (ggplot2 extensions) を駆使して、データの可視化に取り組んでみてください。
+
+## 関連リンク集
+
+-   [**ggplot2 Extensions**](https://exts.ggplot2.tidyverse.org/)
+
+    ggplot2 の拡張パッケージを網羅的に紹介している公式ウェブサイト
+
+-   [**All Your Figure Are Belong To Us**](https://yutannihilation.github.io/allYourFigureAreBelongToUs/)
+
+    圧倒的な事例数を誇る ggplot2 を用いた可視化のギャラリー
+
+- [**Storytelling With Data - ggplot**](https://github.com/adamribaudo/storytelling-with-data-ggplot?tab=readme-ov-file)
+
+    Cole Nussbaumer Knaflic の著書 *Storytelling with Data* (邦訳: Google 流資料作成術) のプロットを **ggplot2** で再現する試み
+
+-   Wickham, H. (2008), "[**Practical Tools for Exploring Data and Models**](https://dr.lib.iastate.edu/entities/publication/9210139e-102e-4537-8b6e-7d8197e2f3d8)", Ph.D. thesis, Iowa State University
+
+    Hadley Wickham 氏の博士論文
+
+-   Wickham, H. (2010), "[**A Layered Grammar of Graphics**](https://vita.had.co.nz/papers/layered-grammar.pdf)", Journal of Computational and Graphical Statistics, 19(1), 3–28.
+
+    Layered Grammar of Graphics に関する議論が整理された論文
+
+## 使用パッケージ一覧
+
+```{r}
+#| echo: false
+pkgs <- search() |>
+  Filter(f = function(x) grepl("package:", x)) |>
+  gsub(pattern = "package:", replacement = "") |>
+  sapply(FUN = function(x) as.character(packageVersion(x))) |>
+  rev()
+cat(paste0("- ", names(pkgs), ": ", pkgs), sep = "\n")
+```

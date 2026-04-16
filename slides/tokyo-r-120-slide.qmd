@@ -1,0 +1,417 @@
+---
+title: "データの可視化"
+subtitle: "Tokyo.R #120"
+date: "2026-04-18"
+format: 
+  revealjs:
+    theme: default
+    slide-number: true
+    code-line-numbers: true
+    chalkboard: true
+    width: 1280
+    height: 720
+execute:
+  freeze: true
+---
+
+## 使用パッケージ
+
+```{r library}
+#| message: false
+#| warning: false
+#| echo: false
+# ggplot2
+library(ggplot2)
+
+# ggplot2 extensions
+library(ggrepel)
+library(midr)
+library(midnight)
+library(khroma)
+library(MetBrewer)
+library(RColorBrewer)
+library(viridisLite)
+
+# data handling
+library(dplyr)
+
+# data providers
+library(gapminder)
+library(rnaturalearth)
+library(fmsb)
+library(ISLR2)
+
+#| echo: false
+pkgs <- search() |>
+  Filter(f = function(x) grepl("package:", x)) |>
+  gsub(pattern = "package:", replacement = "") |>
+  sapply(FUN = function(x) as.character(packageVersion(x))) |>
+  rev()
+cat(paste0("- ", names(pkgs), ": ", pkgs), sep = "\n")
+```
+
+---
+
+## ggplot2 パッケージを使おう
+
+- 探索的な可視化は、そのデータを理解するための第一歩
+- **ggplot2** は探索的な可視化に最適なパッケージ
+  - 多彩で柔軟な表現が可能
+  - **ggforce**、**patchwork**、**gganimate** などの拡張パッケージも豊富
+
+---
+
+```{r mtcars}
+#| fig-height: 5
+#| fig-width: 7.5
+#| fig-align: center
+#| message: false
+#| warning: false
+#| code-fold: true
+ggplot(mtcars, aes(x = hp, y = mpg)) +
+  geom_smooth(method = "gam", formula = y ~ s(x, bs = "cs"), 
+              color = "grey80", fill = "grey90", alpha = 0.5) +
+  geom_point(aes(size = wt, color = factor(cyl)), alpha = 0.8) +
+  geom_text_repel(
+    aes(label = rownames(mtcars)),
+    size = 3,
+    box.padding = 0.4,
+    point.padding = 0.2,
+    segment.alpha = 0.5,
+    max.overlaps = 15
+  ) +
+  scale_size_continuous(range = c(1, 8)) +
+  scale_color_brewer(palette = "Set1") +
+  labs(
+    x = "Gross Horsepower",
+    y = "Fuel Efficiency (Miles per Gallon)",
+    size = "Weight",
+    color = "Cylinders"
+  ) +
+  theme_midr(grid = "xy") +
+  theme(legend.position = "bottom")
+```
+
+---
+
+```{r gapminder}
+#| fig-height: 5
+#| fig-width: 7.5
+#| fig-align: center
+#| warning: false
+#| message: false
+#| code-fold: true
+ggplot(
+  data = gapminder,
+  mapping = aes(
+    x = gdpPercap,
+    y = lifeExp,
+    color = continent
+  )
+) +
+  geom_point() +
+  geom_smooth(method = "gam", formula = y ~ s(x)) +
+  scale_x_log10() +
+  scale_color_theme(theme = "moon") +
+  scale_fill_theme(theme = "moon") +
+  theme_midr(grid = "xy") +
+  theme(legend.position = "bottom") +
+  labs(x = "GDP per Capita", y = "Life Expectancy")
+```
+
+---
+
+```{r life_expectancy}
+#| fig-height: 5
+#| fig-width: 7.5
+#| fig-align: center
+#| warning: false
+#| message: false
+#| code-fold: true
+japan <- ne_states(
+  country = "japan",
+  returnclass = "sf"
+) |>
+  mutate (
+    name = name |>
+      gsub(pattern = "Ō", replacement = "O") |>
+      gsub(pattern = "ō", replacement = "o") |>
+      gsub(pattern = "Kochi", replacement = "Kouchi")
+  ) |>
+  left_join(
+    Prefe0 |> select(PNAME, E0F.2020),
+    by = c("name" = "PNAME")
+  )
+
+legend_label = "Years"
+
+ggplot(data = japan) +
+  geom_sf(
+    mapping = aes(
+      color = E0F.2020,
+      fill = E0F.2020
+    )
+  ) +
+  scale_color_theme("eclipse", middle = 87.74) +
+  scale_fill_theme("eclipse", middle = 87.74) +
+  coord_sf(
+    xlim = c(125.5, 146.5), ylim = c(26.5, 45.0)
+  ) +
+  labs(
+    fill = legend_label, color = legend_label,
+    title = "Life Expectancy at Birth by Prefecture",
+    subtitle = "Japan, Female, 2020 — Average: 87.7 Years"
+  ) +
+  theme_midr(grid = "xy") +
+  theme(
+    legend.key.height = unit(55, "pt")
+  )
+```
+
+---
+
+```{r penguins}
+#| fig-height: 5
+#| fig-width: 7.5
+#| fig-align: center
+#| message: false
+#| warning: false
+#| code-fold: true
+ggplot(penguins, aes(x = bill_len, y = bill_dep, fill = species, size = body_mass)) +
+  geom_point(shape = 21) +
+  scale_fill_theme("mako@qual?alpha=.5") +
+  facet_grid(. ~ toupper(island)) +
+  labs(x = "Bill Length", y = "Bill Depth", fill = "Species", size = "Body Mass") +
+  theme_midr(grid = "xy") +
+  theme(
+    legend.position = "bottom",
+    strip.background = element_rect(fill = "gray10", color = "gray10", size = 1.5)
+  ) + 
+  guides(fill = guide_legend(override.aes = list(size = 4))) 
+```
+---
+
+## The Layered Grammar of Graphics
+
+- プロットを、散布図や棒グラフなどの典型的パターンではなく、抽象的な構成要素からなる **Layer（層）** として構築する理論
+
+* **Defaults**: プロットで共通して用いる基盤。データ (`data`) と審美的属性の対応付け (`mapping`) を含む。
+* **Layer**: プロット図形的要素 (`geom`) 、統計的変換 (`stat`)、配置 (`position`)
+* **Scale**: データの値を、位置・色・サイズなどの審美的属性に変換
+* **Coord**: 位置を描画領域に対応付ける座標系
+* **Facet**: データの分割表示方法
+
+---
+
+### 理論と短縮関数
+
+:::: {.columns}
+
+::: {.column width="50%"}
+**厳密なコード表現**
+```{r}
+#| eval: false
+ggplot() +
+  layer(
+    data = diamonds,
+    mapping = aes(x = carat, y = price),
+    geom = "point",
+    stat = "identity",
+    position = "identity"
+  ) +
+  scale_y_continuous() +
+  scale_x_continuous() +
+  coord_cartesian()
+```
+:::
+
+::: {.column width="50%"}
+**実際のコード (短縮関数)**
+```{r}
+#| eval: false
+ggplot(diamonds, aes(carat, price)) +
+  geom_point()
+```
+
+*内部でデフォルトの `stat` や `position` を補完している*
+:::
+
+::::
+
+---
+
+### 散布図と度数グラフ
+
+:::: {.columns}
+::: {.column width="50%"}
+**散布図** (`geom_point`)
+```{r}
+#| fig-height: 4
+ggplot(diamonds) +
+  geom_point(aes(carat, price)) +
+  scale_x_log10() + scale_y_log10()
+```
+:::
+
+::: {.column width="50%"}
+**度数グラフ** (`geom_bar`)
+```{r}
+#| fig-height: 4
+ggplot(diamonds) +
+  geom_bar(aes(clarity))
+```
+:::
+::::
+
+---
+
+### ヒストグラムと密度曲線
+
+:::: {.columns}
+::: {.column width="50%"}
+**ヒストグラム** (`geom_histogram`)
+```{r}
+#| fig-height: 4
+ggplot(diamonds) +
+  geom_histogram(aes(price), bins = 20) +
+  scale_x_log10()
+```
+:::
+
+::: {.column width="50%"}
+**密度曲線** (`geom_density`)
+```{r}
+#| fig-height: 4
+ggplot(diamonds, aes(price)) +
+  geom_density() +
+  scale_x_log10()
+```
+:::
+::::
+
+---
+
+## データの構造を色にする
+
+色は人間の視覚に最も強く訴えかける要素。
+データの性質に即したスケールを選ばないと、解釈を歪める原因に。
+
+**3つの基本パレット**
+
+1. **Qualitative** (質的)
+2. **Sequential** (順序)
+3. **Diverging** (発散)
+
+---
+
+### 1. Qualitative: 質的カラーパレット
+
+順序や大小関係がない配色。因子型変数の塗り分けに。
+
+```{r}
+#| fig-height: 4.5
+#| output-location: column
+set.seed(42)
+ggplot(diamonds |> sample_n(5000)) +
+  geom_point(aes(carat, price, color = clarity)) +
+  scale_color_okabeito() +
+  theme_midr()
+```
+
+* **Okabe-Ito**: カラーユニバーサルデザイン
+* **HCL**: 視覚的平等を保つ設計
+
+::: {.callout-tip}
+## paletteer パッケージ
+`scale_color_paletteer_d()` などを使えば、R上の無数のパレットを統一インターフェースで呼び出せます。
+:::
+
+---
+
+### 2. Sequential: 順序カラーパレット
+
+明度や彩度が連続的に変化。一方向に増加する数値に。
+
+```{r}
+#| fig-height: 4.5
+#| output-location: column
+ggplot(faithfuld, aes(eruptions, waiting, fill = density)) +
+  geom_tile() +
+  scale_fill_viridis_c() +
+  theme_midr()
+```
+
+* **Viridis**: 数値の変化と視覚的変化が一致するように数学的に設計。
+
+---
+
+### 3. Diverging: 発散カラーパレット
+
+基準値（ゼロや平均値）を中心に、両極端へ向けて濃くなる配色。
+
+```{r}
+#| fig-height: 4.5
+#| output-location: column
+ggplot(faithfuld, aes(eruptions, waiting, fill = density)) +
+  geom_tile() +
+  scale_fill_theme("RdBu", middle = 0.01) +
+  theme_midr()
+```
+
+* **Red-Blue**: 直感的でポピュラーな発散表現。
+
+---
+
+## Storytelling With Data
+
+### 識別のための配色から「強調」の配色へ
+
+* **探索的フェーズ**: データの全容を把握（識別性）
+* **説明的フェーズ**: 伝えたいメッセージを強調
+
+主役以外の部分を**グレーアウト**し、視線を誘導する。
+
+---
+
+### 説明的な可視化の例
+
+```{r}
+#| fig-height: 5
+#| fig-width: 8
+#| code-fold: true
+ggplot(data = diamonds) +
+  geom_bar(
+    mapping = aes(x = clarity, fill = ifelse(carat < 1, "<1", ">1")),
+    position = "fill"
+  ) +
+  scale_fill_theme("highlight?accent='steelblue4';which=2") +
+  labs(
+    subtitle = "透明度が高いほど大きなダイヤモンドの割合は低下する",
+    fill = "カラット",
+    x = "クラリティ",
+    y = "割合"
+  ) +
+  theme_light(ink = "gray10")
+```
+
+::: {.callout-note}
+条件を満たすデータのみを色付けするなら `gghighlight` パッケージも有効です。
+:::
+
+---
+
+## Enjoy !!
+
+**ggplot2** はデータから柔軟にプロットを作り上げるための最強の道具です。
+
+レイヤーの骨格と、構造に合致したカラーパレットで、
+データの理解を深める可視化を！
+
+---
+
+### References
+
+* **ggplot2 Extensions**: https://exts.ggplot2.tidyverse.org/
+* **All Your Figure Are Belong To Us**: ギャラリー
+* **Storytelling With Data - ggplot**: Cole Nussbaumer Knaflic のプロット再現
+* Hadley Wickham 論文: *A Layered Grammar of Graphics* (2010)

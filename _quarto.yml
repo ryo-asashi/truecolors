@@ -2,12 +2,33 @@ project:
   type: website
   output-dir: docs
 
+execute:
+  freeze: auto
+
 website:
-  title: "Tokyo.R #120"
+  title: "From Data and Models to Visual Insights"
   navbar:
     left:
       - href: index.qmd
         text: Home
+      - text: Talks
+        menu:
+          - href: talks/tokyo-r-120.qmd
+            text: "Tokyo.R #120"
+          - href: https://ryo-asashi.github.io/Convention_A_Asia/
+            text: "Convention A Asia"
+            icon: github
+      - text: Packages
+        menu:
+          - href: https://ryo-asashi.github.io/midr/
+            text: midr
+            icon: github
+          - href: https://ryo-asashi.github.io/midnight/
+            text: midnight
+            icon: github
+          - href: https://ryo-asashi.github.io/midlearn/
+            text: midlearn
+            icon: github
 
 format:
   html:
