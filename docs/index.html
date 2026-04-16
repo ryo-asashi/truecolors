@@ -206,7 +206,6 @@ window.Quarto = {
   <li><a href="#qualitative-質的カラーパレット" id="toc-qualitative-質的カラーパレット" class="nav-link" data-scroll-target="#qualitative-質的カラーパレット">Qualitative: 質的カラーパレット</a>
   <ul class="collapse">
   <li><a href="#配色の例" id="toc-配色の例" class="nav-link" data-scroll-target="#配色の例">配色の例</a></li>
-  <li><a href="#データの水準とパレットの色数に関する注意点" id="toc-データの水準とパレットの色数に関する注意点" class="nav-link" data-scroll-target="#データの水準とパレットの色数に関する注意点">データの水準とパレットの色数に関する注意点</a></li>
   </ul></li>
   <li><a href="#sequential-順序カラーパレット" id="toc-sequential-順序カラーパレット" class="nav-link" data-scroll-target="#sequential-順序カラーパレット">Sequential: 順序カラーパレット</a>
   <ul class="collapse">
@@ -223,7 +222,7 @@ window.Quarto = {
   <li><a href="#説明的な可視化の例" id="toc-説明的な可視化の例" class="nav-link" data-scroll-target="#説明的な可視化の例">説明的な可視化の例</a></li>
   </ul></li>
   <li><a href="#enjoy" id="toc-enjoy" class="nav-link" data-scroll-target="#enjoy">Enjoy !!</a></li>
-  <li><a href="#リンク集" id="toc-リンク集" class="nav-link" data-scroll-target="#リンク集">リンク集</a></li>
+  <li><a href="#関連リンク集" id="toc-関連リンク集" class="nav-link" data-scroll-target="#関連リンク集">関連リンク集</a></li>
   <li><a href="#使用パッケージ一覧" id="toc-使用パッケージ一覧" class="nav-link" data-scroll-target="#使用パッケージ一覧">使用パッケージ一覧</a></li>
   </ul>
 </nav>
@@ -278,7 +277,7 @@ window.Quarto = {
 <section id="ggplot2-を使ってみよう" class="level2">
 <h2 class="anchored" data-anchor-id="ggplot2-を使ってみよう">ggplot2 を使ってみよう</h2>
 <p><strong>ggplot2</strong> は、<strong>R</strong> でデータの可視化を行う際に標準的に利用されているパッケージです。 その豊富な機能に加え、単体では作成できないプロットを実現するための多くの拡張パッケージが開発されています。</p>
-<p><strong>ggplot2</strong> と拡張パッケージを活用することで、たとえば以下のような多様なプロットを作成することが可能です。</p>
+<p><strong>ggplot2</strong> とその拡張パッケージを活用することで、以下のようなプロットを作成することが可能です。</p>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
@@ -770,15 +769,24 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section>
-<section id="データの水準とパレットの色数に関する注意点" class="level4">
-<h4 class="anchored" data-anchor-id="データの水準とパレットの色数に関する注意点">データの水準とパレットの色数に関する注意点</h4>
-<p>質的パレットには、対応付ける変数の水準数によって色の順序が変化するなどの特殊な挙動をするものがあります。特に、水準数がパレットの提供する色数の上限を超えた場合の挙動には注意が必要です。以下はその一例です。</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="データの水準数がパレットの色数を超える場合">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>データの水準数がパレットの色数を超える場合
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>質的パレットには、対応付ける変数の水準数によって色の順序が変化するなどの特殊な挙動をするものがあります。 特に、水準数がパレットの提供する色数の上限を超えた場合の挙動には注意が必要です。以下はその一例です。</p>
 <ul>
 <li><p><strong>補間</strong> (Interpolation): 足りない色を計算で作り出し、グラデーションのように対応させる。</p></li>
 <li><p><strong>循環</strong> (Cycling): 用意された色を使い切り、最初に戻って繰り返す。</p></li>
 <li><p><strong>エラー</strong>: カテゴリ数が多すぎるとして描画を停止する。</p></li>
 </ul>
+</div>
+</div>
 </section>
 </section>
 <section id="sequential-順序カラーパレット" class="level3">
@@ -841,6 +849,19 @@ window.Quarto = {
 <p><img src="index_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="480"></p>
 </figure>
 </div>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="paletteer パッケージ">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>paletteer パッケージ
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>カラーパレットは非常に多くのパッケージに実装されており、欲しいパレットを提供している関数を探すのは容易ではありません。 そうした場合に役立つのが <strong>paletteer</strong> パッケージです。このパッケージは <strong>R</strong> の世界に存在する無数のカラーパレットを共通のインターフェースで利用できるようにすることを目的とするパッケージで、<code>scale_color_paletteer_d()</code> や <code>scale_fill_paletteer_d()</code> といった関数を使って様々なパレットを試すことができます。</p>
 </div>
 </div>
 <hr>
@@ -908,7 +929,7 @@ window.Quarto = {
 <span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"登録者による利用数"</span>, <span class="co"># "Number of Bikers",</span></span>
 <span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="cn">NULL</span>,</span>
 <span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_theme</span>(<span class="st">"highlight?which=2;accent='firebrick2'"</span>) <span class="sc">+</span></span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_theme</span>(<span class="st">"highlight?which=1;accent='firebrick2'"</span>) <span class="sc">+</span></span>
 <span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>(<span class="at">ink =</span> <span class="st">"gray10"</span>) <span class="sc">+</span></span>
 <span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>　<span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
@@ -920,17 +941,17 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout callout-style-default callout-tip callout-titled" title="gghighlight パッケージ">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Tip
+<span class="screen-reader-only">Tip</span>gghighlight パッケージ
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>以上の例のように、カラーパレットを変えることで配色を調整する場合、強調したいデータがその他のデータに埋もれてしまうことがあります。 そうした場合に特定の条件を満たすデータを強調するには、<strong>gghighlight</strong> パッケージが有効です。 <code>gghighlight()</code> 関数をプロットに重ねるだけで、強調するデータのみを表示するレイヤーを重ねてくれるため、他のデータに埋もれてしまうことがありません。</p>
+<p>例のように、カラーパレットを変えることで配色を調整する場合、強調したいデータがその他のデータに埋もれてしまうことがあります。 そうした場合に特定の条件を満たすデータを強調するには、<strong>gghighlight</strong> パッケージが有効です。 <code>gghighlight()</code> 関数をプロットに重ねるだけで、強調するデータのみを表示するレイヤーを重ねてくれるため、他のデータに埋もれてしまうことがありません。</p>
 </div>
 </div>
 </section>
@@ -940,14 +961,14 @@ Tip
 <p><strong>ggplot2</strong> パッケージは、データから柔軟にプロットを作り上げるための最強の道具です。 レイヤーを重ねてプロットの骨格を構築し、データの構造に合致したカラーパレットで彩ることで、データの理解を深めるために有用なプロットを作成することができます。</p>
 <p>ぜひ皆様も、<strong>ggplot2</strong> とその拡張パッケージ (ggplot2 extensions) を駆使して、データの可視化に取り組んでみてください。</p>
 </section>
-<section id="リンク集" class="level2">
-<h2 class="anchored" data-anchor-id="リンク集">リンク集</h2>
+<section id="関連リンク集" class="level2">
+<h2 class="anchored" data-anchor-id="関連リンク集">関連リンク集</h2>
 <ul>
 <li><p><a href="https://exts.ggplot2.tidyverse.org/"><strong>ggplot2 Extensions</strong></a></p>
 <p>ggplot2 の拡張パッケージを網羅的に紹介している公式ウェブサイト</p></li>
 <li><p><a href="https://yutannihilation.github.io/allYourFigureAreBelongToUs/"><strong>All Your Figure Are Belong To Us</strong></a></p>
 <p>圧倒的な事例数を誇る ggplot2 を用いた可視化のギャラリー</p></li>
-<li><p><a href="https://github.com/adamribaudo/storytelling-with-data-ggplot?tab=readme-ov-file">Storytelling With Data - ggplot</a></p>
+<li><p><a href="https://github.com/adamribaudo/storytelling-with-data-ggplot?tab=readme-ov-file"><strong>Storytelling With Data - ggplot</strong></a></p>
 <p>Cole Nussbaumer Knaflic の著書 <em>Storytelling with Data</em> (邦訳: Google 流資料作成術) のプロットを <strong>ggplot2</strong> で再現する試み</p></li>
 <li><p>Wickham, H. (2008), “<a href="https://dr.lib.iastate.edu/entities/publication/9210139e-102e-4537-8b6e-7d8197e2f3d8"><strong>Practical Tools for Exploring Data and Models</strong></a>”, Ph.D.&nbsp;thesis, Iowa State University</p>
 <p>Hadley Wickham 氏の博士論文</p></li>
@@ -968,7 +989,7 @@ Tip
 - stats: 4.5.1
 - ggplot2: 4.0.2
 - ggrepel: 0.9.6
-- midr: 0.6.0.903
+- midr: 0.6.0
 - midnight: 0.2.0
 - khroma: 1.17.0
 - MetBrewer: 0.2.0

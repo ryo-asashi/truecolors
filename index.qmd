@@ -33,7 +33,7 @@ library(ISLR2)
 **ggplot2** は、**R** でデータの可視化を行う際に標準的に利用されているパッケージです。
 その豊富な機能に加え、単体では作成できないプロットを実現するための多くの拡張パッケージが開発されています。
 
-**ggplot2** と拡張パッケージを活用することで、たとえば以下のような多様なプロットを作成することが可能です。
+**ggplot2** とその拡張パッケージを活用することで、以下のようなプロットを作成することが可能です。
 
 ```{r mtcars}
 #| fig-height: 5
@@ -472,16 +472,16 @@ ggplot(data = diamonds |> sample_n(5000)) +
   scale_color_hue()
 ```
 
-#### データの水準とパレットの色数に関する注意点
-
-質的パレットには、対応付ける変数の水準数によって色の順序が変化するなどの特殊な挙動をするものがあります。特に、水準数がパレットの提供する色数の上限を超えた場合の挙動には注意が必要です。以下はその一例です。
+::: {.callout-tip title="データの水準数がパレットの色数を超える場合"}
+質的パレットには、対応付ける変数の水準数によって色の順序が変化するなどの特殊な挙動をするものがあります。
+特に、水準数がパレットの提供する色数の上限を超えた場合の挙動には注意が必要です。以下はその一例です。
 
 -   **補間** (Interpolation): 足りない色を計算で作り出し、グラデーションのように対応させる。
 
 -   **循環** (Cycling): 用意された色を使い切り、最初に戻って繰り返す。
 
 -   **エラー**: カテゴリ数が多すぎるとして描画を停止する。
-
+:::
 
 ### Sequential: 順序カラーパレット
 
@@ -547,6 +547,11 @@ ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
   scale_fill_theme("RdBu", middle = 0.01)
 ```
 
+::: {.callout-tip title="paletteer パッケージ"}
+カラーパレットは非常に多くのパッケージに実装されており、欲しいパレットを提供している関数を探すのは容易ではありません。
+そうした場合に役立つのが **paletteer** パッケージです。このパッケージは **R** の世界に存在する無数のカラーパレットを共通のインターフェースで利用できるようにすることを目的とするパッケージで、`scale_color_paletteer_d()` や `scale_fill_paletteer_d()` といった関数を使って様々なパレットを試すことができます。
+:::
+
 ---
 
 ## Storytelling With Data
@@ -611,13 +616,13 @@ ggplot(
     y = "登録者による利用数", # "Number of Bikers",
     color = NULL,
   ) +
-  scale_color_theme("highlight?which=2;accent='firebrick2'") +
+  scale_color_theme("highlight?which=1;accent='firebrick2'") +
   theme_light(ink = "gray10") +
 　theme(legend.position = "bottom")
 ```
 
-::: {.callout-tip}
-以上の例のように、カラーパレットを変えることで配色を調整する場合、強調したいデータがその他のデータに埋もれてしまうことがあります。
+::: {.callout-tip title="gghighlight パッケージ"}
+例のように、カラーパレットを変えることで配色を調整する場合、強調したいデータがその他のデータに埋もれてしまうことがあります。
 そうした場合に特定の条件を満たすデータを強調するには、**gghighlight** パッケージが有効です。
 `gghighlight()` 関数をプロットに重ねるだけで、強調するデータのみを表示するレイヤーを重ねてくれるため、他のデータに埋もれてしまうことがありません。
 :::
@@ -629,7 +634,7 @@ ggplot(
 
 ぜひ皆様も、**ggplot2** とその拡張パッケージ (ggplot2 extensions) を駆使して、データの可視化に取り組んでみてください。
 
-## リンク集
+## 関連リンク集
 
 -   [**ggplot2 Extensions**](https://exts.ggplot2.tidyverse.org/)
 
@@ -639,7 +644,7 @@ ggplot(
 
     圧倒的な事例数を誇る ggplot2 を用いた可視化のギャラリー
 
-- [Storytelling With Data - ggplot](https://github.com/adamribaudo/storytelling-with-data-ggplot?tab=readme-ov-file)
+- [**Storytelling With Data - ggplot**](https://github.com/adamribaudo/storytelling-with-data-ggplot?tab=readme-ov-file)
 
     Cole Nussbaumer Knaflic の著書 *Storytelling with Data* (邦訳: Google 流資料作成術) のプロットを **ggplot2** で再現する試み
 
