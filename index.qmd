@@ -598,16 +598,24 @@ ggplot(
   data = Bikeshare,
   mapping = aes(
     x = hr,
-    color = ifelse(weekday %in% 1:5, "月曜日～金曜日", "土曜日・日曜日"),
-    group = as.factor(weekday)
+    color = ifelse(workingday, "平日", "休日"),
+    group = as.factor(workingday)
   )
 ) +
-  stat_summary(
-    geom = "line",
+  annotate(
+    "rect", xmin = 8.5, xmax = 9.5, ymin = -Inf, ymax = Inf,
+    fill = "salmon", alpha = .2
+  ) +
+  annotate(
+    "rect", xmin = 17.5, xmax = 19.5, ymin = -Inf, ymax = Inf,
+    fill = "salmon", alpha = .2
+  ) +
+  geom_line(
+    stat = "summary", linewidth = 1,
     mapping = aes(y = registered)
   ) +
-  stat_summary(
-    geom = "pointrange",
+  geom_point(
+    stat = "summary", size = 3,
     mapping = aes(y = registered)
   ) +
   labs(
@@ -616,7 +624,7 @@ ggplot(
     y = "登録者による利用数", # "Number of Bikers",
     color = NULL,
   ) +
-  scale_color_theme("highlight?which=1;accent='firebrick2'") +
+  scale_color_theme("highlight?which=2;accent='firebrick2'") +
   theme_light(ink = "gray10") +
 　theme(legend.position = "bottom")
 ```
