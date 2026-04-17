@@ -18,6 +18,10 @@ website:
           - href: https://ryo-asashi.github.io/Convention_A_Asia/
             text: "Convention A Asia"
             icon: github
+      - text: Slides
+        menu:
+          - href: slides/tokyo-r-120-slide.qmd
+            text: "Tokyo.R #120 (Slide)"
       - text: Packages
         menu:
           - href: https://ryo-asashi.github.io/midr/

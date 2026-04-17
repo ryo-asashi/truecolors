@@ -715,7 +715,7 @@ ggplot(
 
 ```{r}
 #| echo: false
-#| fig-height: 5
+#| fig-height: 4
 #| fig-width: 14
 #| fig-align: center
 par.midr(mfrow = c(6, 1))
@@ -734,7 +734,7 @@ plot(color.theme("Austria"), text = "")
 #### Okabe-Ito: カラーユニバーサルデザイン
 
 ```{r}
-#| fig-height: 5
+#| fig-height: 4
 #| fig-width: 5
 #| fig-align: center
 set.seed(42)
@@ -751,7 +751,7 @@ ggplot(diamonds |> sample_n(5000)) +
 
 
 ```{r}
-#| fig-height: 5
+#| fig-height: 4
 #| fig-width: 5
 #| fig-align: center
 set.seed(42)
@@ -772,7 +772,7 @@ ggplot(diamonds |> sample_n(5000)) +
 
 ```{r}
 #| echo: false
-#| fig-height: 5
+#| fig-height: 4
 #| fig-width: 14
 #| fig-align: center
 par.midr(mfrow = c(6, 1))
@@ -791,7 +791,7 @@ plot(color.theme("tokyo"), text = "")
 #### Viridis: 数値の変化と視覚的変化が一致するように数学的に設計
 
 ```{r}
-#| fig-height: 5
+#| fig-height: 4
 #| fig-width: 5
 #| fig-align: center
 ggplot(faithfuld, aes(eruptions, waiting, fill = density)) +
@@ -811,7 +811,7 @@ ggplot(faithfuld, aes(eruptions, waiting, fill = density)) +
 
 ```{r}
 #| echo: false
-#| fig-height: 5
+#| fig-height: 4
 #| fig-width: 14
 #| fig-align: center
 par.midr(mfrow = c(6, 1))
@@ -830,7 +830,7 @@ plot(color.theme("Hiroshige"), text = "")
 #### Temps: 色彩豊かな発散パレット
 
 ```{r}
-#| fig-height: 5
+#| fig-height: 4
 #| fig-width: 5
 #| fig-align: center
 ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
