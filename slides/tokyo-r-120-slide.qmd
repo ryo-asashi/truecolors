@@ -12,6 +12,7 @@ format:
     height: 720
 execute:
   freeze: true
+  out-width: "100%"
 ---
 
 ```{r library}
@@ -733,15 +734,47 @@ plot(color.theme("Austria"), text = "")
 
 #### Okabe-Ito: カラーユニバーサルデザイン
 
+- 色覚特性に配慮して設計された配色
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: false
+set.seed(42)
+ggplot(
+  data = diamonds |> sample_n(5000),
+  aes(
+    x = carat,
+    y = price,
+    color = clarity
+  )
+) +
+  geom_point() +
+  scale_color_okabeito()
+```
+:::
+
+::: {.column width="50%"}
 ```{r}
 #| fig-height: 4
 #| fig-width: 5
 #| fig-align: center
+#| echo: false
 set.seed(42)
-ggplot(diamonds |> sample_n(5000)) +
-  geom_point(aes(carat, price, color = clarity)) +
+ggplot(
+  data = diamonds |> sample_n(5000),
+  aes(
+    x = carat,
+    y = price,
+    color = clarity
+  )
+) +
+  geom_point() +
   scale_color_okabeito()
 ```
+:::
+::::
 
 
 ---
@@ -749,16 +782,47 @@ ggplot(diamonds |> sample_n(5000)) +
 
 #### HCL: 視覚的平等を保つ設計
 
+- 一部の色を目立たせることなく公平に比較
 
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: false
+set.seed(42)
+ggplot(
+  data = diamonds |> sample_n(5000),
+  aes(
+    x = carat,
+    y = price,
+    color = clarity
+  )
+) +
+  geom_point() +
+  scale_color_hue()
+```
+:::
+
+::: {.column width="50%"}
 ```{r}
 #| fig-height: 4
 #| fig-width: 5
 #| fig-align: center
+#| echo: false
 set.seed(42)
-ggplot(diamonds |> sample_n(5000)) +
-  geom_point(aes(carat, price, color = clarity)) +
+ggplot(
+  data = diamonds |> sample_n(5000),
+  aes(
+    x = carat,
+    y = price,
+    color = clarity
+  )
+) +
+  geom_point() +
   scale_color_hue()
 ```
+:::
+::::
 
 
 ---
@@ -788,16 +852,47 @@ plot(color.theme("tokyo"), text = "")
 ---
 
 
-#### Viridis: 数値の変化と視覚的変化が一致するように数学的に設計
+#### Viridis: データサイエンスの定番パレット
 
+- 数値の変化と視覚的変化が一致するように設計
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: false
+ggplot(
+  data = faithfuld,
+  mapping = aes(
+    x = eruptions,
+    y = waiting,
+    fill = density
+  )
+) +
+  geom_tile() +
+  scale_fill_viridis_c()
+```
+:::
+
+::: {.column width="50%"}
 ```{r}
 #| fig-height: 4
 #| fig-width: 5
 #| fig-align: center
-ggplot(faithfuld, aes(eruptions, waiting, fill = density)) +
+#| echo: false
+ggplot(
+  data = faithfuld,
+  mapping = aes(
+    x = eruptions,
+    y = waiting,
+    fill = density
+  )
+) +
   geom_tile() +
   scale_fill_viridis_c()
 ```
+:::
+::::
 
 
 ---
@@ -829,14 +924,51 @@ plot(color.theme("Hiroshige"), text = "")
 
 #### Temps: 色彩豊かな発散パレット
 
+- 中央の色がイエロー系で、白背景でも鮮やかな印象
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| echo: true
+#| eval: false
+ggplot(
+  data = faithfuld,
+  mapping = aes(
+    x = eruptions,
+    y = waiting,
+    fill = density
+  )
+) +
+  geom_tile() +
+  scale_fill_theme(
+    theme = "Temps",
+    middle = 0.01
+  )
+```
+:::
+
+::: {.column width="50%"}
 ```{r}
 #| fig-height: 4
 #| fig-width: 5
 #| fig-align: center
-ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
+#| echo: false
+ggplot(
+  data = faithfuld,
+  mapping = aes(
+    x = eruptions,
+    y = waiting,
+    fill = density
+  )
+) +
   geom_tile() +
-  scale_fill_theme("Temps", middle = 0.01)
+  scale_fill_theme(
+    theme = "Temps",
+    middle = 0.01
+  )
 ```
+:::
+::::
 
 
 ---

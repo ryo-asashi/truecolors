@@ -617,13 +617,69 @@
 <section class="slide level2">
 
 <h4 id="okabe-ito-カラーユニバーサルデザイン">Okabe-Ito: カラーユニバーサルデザイン</h4>
-
-<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-26-1.png" class="quarto-figure quarto-figure-center r-stretch" width="480"></section>
+<ul>
+<li>色覚特性に配慮して設計された配色</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb13-2"><a></a><span class="fu">ggplot</span>(</span>
+<span id="cb13-3"><a></a>  <span class="at">data =</span> diamonds <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(<span class="dv">5000</span>),</span>
+<span id="cb13-4"><a></a>  <span class="fu">aes</span>(</span>
+<span id="cb13-5"><a></a>    <span class="at">x =</span> carat,</span>
+<span id="cb13-6"><a></a>    <span class="at">y =</span> price,</span>
+<span id="cb13-7"><a></a>    <span class="at">color =</span> clarity</span>
+<span id="cb13-8"><a></a>  )</span>
+<span id="cb13-9"><a></a>) <span class="sc">+</span></span>
+<span id="cb13-10"><a></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-11"><a></a>  <span class="fu">scale_color_okabeito</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-27-1.png" class="quarto-figure quarto-figure-center" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
 <section class="slide level2">
 
 <h4 id="hcl-視覚的平等を保つ設計">HCL: 視覚的平等を保つ設計</h4>
-
-<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-27-1.png" class="quarto-figure quarto-figure-center r-stretch" width="480"></section>
+<ul>
+<li>一部の色を目立たせることなく公平に比較</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb14-2"><a></a><span class="fu">ggplot</span>(</span>
+<span id="cb14-3"><a></a>  <span class="at">data =</span> diamonds <span class="sc">|&gt;</span> <span class="fu">sample_n</span>(<span class="dv">5000</span>),</span>
+<span id="cb14-4"><a></a>  <span class="fu">aes</span>(</span>
+<span id="cb14-5"><a></a>    <span class="at">x =</span> carat,</span>
+<span id="cb14-6"><a></a>    <span class="at">y =</span> price,</span>
+<span id="cb14-7"><a></a>    <span class="at">color =</span> clarity</span>
+<span id="cb14-8"><a></a>  )</span>
+<span id="cb14-9"><a></a>) <span class="sc">+</span></span>
+<span id="cb14-10"><a></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb14-11"><a></a>  <span class="fu">scale_color_hue</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-29-1.png" class="quarto-figure quarto-figure-center" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
 <section class="slide level2">
 
 <h3 id="sequential-順序カラーパレット">Sequential: 順序カラーパレット</h3>
@@ -632,12 +688,39 @@
 <li><p>一方向に増加する数値を表現するときに利用する</p></li>
 </ul>
 
-<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-28-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1344"></section>
+<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-30-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1344"></section>
 <section class="slide level2">
 
-<h4 id="viridis-数値の変化と視覚的変化が一致するように数学的に設計">Viridis: 数値の変化と視覚的変化が一致するように数学的に設計</h4>
-
-<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-29-1.png" class="quarto-figure quarto-figure-center r-stretch" width="480"></section>
+<h4 id="viridis-データサイエンスの定番パレット">Viridis: データサイエンスの定番パレット</h4>
+<ul>
+<li>数値の変化と視覚的変化が一致するように設計</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="fu">ggplot</span>(</span>
+<span id="cb15-2"><a></a>  <span class="at">data =</span> faithfuld,</span>
+<span id="cb15-3"><a></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb15-4"><a></a>    <span class="at">x =</span> eruptions,</span>
+<span id="cb15-5"><a></a>    <span class="at">y =</span> waiting,</span>
+<span id="cb15-6"><a></a>    <span class="at">fill =</span> density</span>
+<span id="cb15-7"><a></a>  )</span>
+<span id="cb15-8"><a></a>) <span class="sc">+</span></span>
+<span id="cb15-9"><a></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb15-10"><a></a>  <span class="fu">scale_fill_viridis_c</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-32-1.png" class="quarto-figure quarto-figure-center" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
 <section class="slide level2">
 
 <h3 id="diverging-発散カラーパレット">Diverging: 発散カラーパレット</h3>
@@ -646,12 +729,42 @@
 <li><p>ゼロや平均値などを基準に持つ変数の可視化に利用する</p></li>
 </ul>
 
-<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-30-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1344"></section>
+<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-33-1.png" class="quarto-figure quarto-figure-center r-stretch" width="1344"></section>
 <section class="slide level2">
 
 <h4 id="temps-色彩豊かな発散パレット">Temps: 色彩豊かな発散パレット</h4>
-
-<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-31-1.png" class="quarto-figure quarto-figure-center r-stretch" width="480"></section>
+<ul>
+<li>中央の色がイエロー系で、白背景でも鮮やかな印象</li>
+</ul>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">ggplot</span>(</span>
+<span id="cb16-2"><a></a>  <span class="at">data =</span> faithfuld,</span>
+<span id="cb16-3"><a></a>  <span class="at">mapping =</span> <span class="fu">aes</span>(</span>
+<span id="cb16-4"><a></a>    <span class="at">x =</span> eruptions,</span>
+<span id="cb16-5"><a></a>    <span class="at">y =</span> waiting,</span>
+<span id="cb16-6"><a></a>    <span class="at">fill =</span> density</span>
+<span id="cb16-7"><a></a>  )</span>
+<span id="cb16-8"><a></a>) <span class="sc">+</span></span>
+<span id="cb16-9"><a></a>  <span class="fu">geom_tile</span>() <span class="sc">+</span></span>
+<span id="cb16-10"><a></a>  <span class="fu">scale_fill_theme</span>(</span>
+<span id="cb16-11"><a></a>    <span class="at">theme =</span> <span class="st">"Temps"</span>,</span>
+<span id="cb16-12"><a></a>    <span class="at">middle =</span> <span class="fl">0.01</span></span>
+<span id="cb16-13"><a></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-35-1.png" class="quarto-figure quarto-figure-center" width="480"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
 <section id="storytelling-with-data" class="slide level2">
 <h2>Storytelling With Data</h2>
 <ul>
@@ -669,11 +782,11 @@
 <section class="slide level2">
 
 
-<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-32-1.png" class="quarto-figure quarto-figure-center r-stretch" width="720"></section>
+<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-36-1.png" class="quarto-figure quarto-figure-center r-stretch" width="720"></section>
 <section class="slide level2">
 
 
-<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-33-1.png" class="quarto-figure quarto-figure-center r-stretch" width="720"></section>
+<img data-src="tokyo-r-120-slide_files/figure-revealjs/unnamed-chunk-37-1.png" class="quarto-figure quarto-figure-center r-stretch" width="720"></section>
 <section id="enjoy" class="slide level2">
 <h2>Enjoy!!</h2>
 <ul>

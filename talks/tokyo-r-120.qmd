@@ -444,7 +444,7 @@ ggplot(
 
 ------------------------------------------------------------------------
 
-## データの構造を色にする: 3種類のカラーパレット
+## データの構造を色にする
 
 審美的属性 (Aesthetics) の中でも、**色**は人間の視覚に最も強く訴えかける要素です。
 
@@ -484,9 +484,16 @@ plot(color.theme("Austria"))
 #| fig-height: 3
 #| fig-width: 5
 set.seed(42)
-ggplot(data = diamonds |> sample_n(5000)) +
-  geom_point(mapping = aes(x = carat, y = price, color = clarity)) +
-  scale_color_okabeito()
+ggplot(
+  data = diamonds |> sample_n(5000),
+  aes(
+    x = carat,
+    y = price,
+    color = clarity
+  )
+) +
+  geom_point() +
+  scale_color_hue()
 ```
 
 -   **HCL パレット**
@@ -497,8 +504,15 @@ ggplot(data = diamonds |> sample_n(5000)) +
 #| fig-height: 3
 #| fig-width: 5
 set.seed(42)
-ggplot(data = diamonds |> sample_n(5000)) +
-  geom_point(mapping = aes(x = carat, y = price, color = cut)) +
+ggplot(
+  data = diamonds |> sample_n(5000),
+  aes(
+    x = carat,
+    y = price,
+    color = clarity
+  )
+) +
+  geom_point() +
   scale_color_hue()
 ```
 
@@ -540,7 +554,14 @@ plot(color.theme("tokyo"))
 ```{r}
 #| fig-height: 3
 #| fig-width: 5
-ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
+ggplot(
+  data = faithfuld,
+  mapping = aes(
+    x = eruptions,
+    y = waiting,
+    fill = density
+  )
+) +
   geom_tile() +
   scale_fill_viridis_c()
 ```
@@ -567,14 +588,24 @@ plot(color.theme("Hiroshige"))
 
 -   **Temps パレット**
 
-    深みのある青緑から明るいイエローを経て、ローズレッドへと変化する、色彩豊かな発散パレットです。中央が白ではなくイエロー系であるため、白背景のグラフでも鮮やかな印象が保たれます。
+    深みのある青緑から明るいイエローを経てローズレッドへと変化する、色彩豊かな発散パレットです。中央が白ではなくイエロー系であるため、白背景のグラフでも鮮やかな印象が保たれます。
 
 ```{r}
 #| fig-height: 3
 #| fig-width: 5
-ggplot(faithfuld, aes(x = eruptions, y = waiting, fill = density)) +
+ggplot(
+  data = faithfuld,
+  mapping = aes(
+    x = eruptions,
+    y = waiting,
+    fill = density
+  )
+) +
   geom_tile() +
-  scale_fill_theme("Temps", middle = 0.01)
+  scale_fill_theme(
+    theme = "Temps",
+    middle = 0.01
+  )
 ```
 
 ::: {.callout-tip title="paletteer パッケージ"}
