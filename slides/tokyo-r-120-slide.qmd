@@ -10,15 +10,6 @@ format:
     chalkboard: true
     width: 1280
     height: 720
-    include-in-header:
-      - text: |
-          <style>
-          .reveal .slides img {
-            max-width: 100% !important;
-            max-height: 100% !important;
-            object-fit: contain;
-          }
-          </style>
 execute:
   freeze: true
   out-width: "100%"
